@@ -1,0 +1,183 @@
+body {
+    font-family: 'Press Start 2P', cursive;
+    color: rgb(0, 255, 0);
+    background-color: #1a1a1a;
+    margin: 20px;
+    padding: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    background-size: 400% 400%;
+    background-attachment: fixed;
+    overflow: hidden;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+}
+
+.container {
+    background-color: #262626;
+    border-radius: 10px;
+    padding: 20px;
+    width: 30%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    font-weight: lighter;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+}
+
+button {
+    background-color: #5bc962;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2dff3b;
+}
+
+select {
+    background-color: #5bc962;
+    color: #000000;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  select:hover {
+    background-color: #2dff3b;
+  }
+  
+  select option {
+    background-color: #262626;
+    color: #ffffff;
+  }
+
+  .conga-line {
+    position: fixed;
+    bottom: 0;
+    left: -150%;
+    width: 500%;
+    z-index: -1;
+    filter: blur(10px);
+    animation: conga 180s linear infinite;
+  }
+  
+  .conga-line img {
+    width: 200px;
+    height: auto;
+    margin: 0 350px;
+    opacity: 50%;
+    transform: scale(3);
+    bottom: 0;
+  }
+  
+  @keyframes conga {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .lights {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  
+  .light {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: float 16s infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+      bottom: -10%;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.2);
+      bottom: 120%;
+    }
+  }
+  
+  #frenPair-container {
+    width: 100%;
+    font-size: 0.8em;
+    padding: 10px;
+    align-self: auto;
+  }
+  
+  #frenPair-container h2 {
+    font-size: 1em; /* smaller font size for h2 */
+    margin: 0 0 10px; /* add some margin to separate from p elements */
+  }
+  
+  #frenPair-container p {
+    margin: 0;
+    text-align: left;
+    word-wrap: break-word;
+    line-height: 20px; /* increased line-height to take up vertical space */
+    align-self: auto;
+  }
+  
+  #frenPair {
+    display: inline-block;
+    text-align: left;
+    max-width: 100%;
+    white-space: normal;
+    font-size: 0.8em;
+    align-self: auto;
+    color: #fffafa;
+  }
+  
+  #frenDetails {
+    align-self: auto;
+    text-align: left;
+    color: #fffafa;
+    display: inline-block;
+    max-width: 100%;
+    white-space: normal;
+    font-size: 0.8em;
+  }
+
+  .green-text {
+    color: #00ff00; /* green color */
+  }
+  
+  .white-text {
+    color: #fff; /* white color */
+  }
+
+  input[type="number"] {
+    background-color: #5bc962;
+    color: #000000;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+}
