@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FREN Token Staking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</head>
+<body>
+    <div class="conga-line">
+        <img src="pepe1.png" alt="Pepe 1">
+        <img src="pepe2.png" alt="Pepe 2">
+        <img src="pepe3.png" alt="Pepe 3">
+        <img src="pepe4.png" alt="Pepe 4">
+        <img src="pepe5.png" alt="Pepe 5">
+        <img src="pepe6.png" alt="Pepe 6">
+    </div>
+    <div class="background">
+        <div class="lights"></div>
+        </div>
+      </div>
+    <div class="container">
+        <h1>FREN Token Staking</h1>
+        <p>Total Supply: <span id="totalSupply"></span> FREN</p>
+        <p>Current Burn Rate:</p>
+        <p><span id="burnRate"></span>%🔥</p>
+        <hr>
+
+        <h2>Stake</h2>
+        <input type="number" id="tierInput" placeholder="Enter amount to stake">
+        <button id="stakeBtn">Stake</button>
+        <hr>
+
+        <h2>Fren Pair</h2>
+        <div id="frenPair-container">
+            <p><span class="green-text">Your fren is:</span> <span id="frenPair" class="white-text"></span></p>
+            <p><span class="green-text">Est FREN earned:</span> <span id="frenDetails" class="white-text"></span></p>
+          </div>
+        <button id="stopBeingFrenBtn">Stop Being Fren</button>
+        <button id="leaveQueueBtn">Leave Queue</button>
+        <hr>
+
+        <h2>Settings</h2>
+        <label for="autoFren">Auto Fren</label>
+        <input type="checkbox" id="autoFren">
+        <div id="ownerControls">
+            <hr>
+            <h2>Owner Functions</h2>
+            <button id="calculateInterestBtn">Calculate Interest</button>
+            <button id="getBurnRateBtn">Get Burn Rate</button>
+            <button id="setBurnPauseBtn">Set Burn Pause</button>
+            <button id="setMinFrenTimeBtn">Set Min Fren Time</button>
+            <button id="getTotalFarmingFrenBtn">Get Total Farming Fren</button>
+            <button id="isInFrenPairBtn">Is In Fren Pair</button>
+            <button id="isInQueueBtn">Last In Queue</button>
+          </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
