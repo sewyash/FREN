@@ -73,5 +73,44 @@
           </div>
     </div>
     <script src="app.js"></script>
+    <button id="playBtn">♫</button>
+    <audio id="backgroundMusic" loop>
+        <source src="./frenMusic.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <a id="buyBtn" href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x3362C28d075dA9209Fe04FC0D2952089130303dC&use=V2">
+      <button>Swap ETH to Token</button>
+    </a>
+    <style>
+      @keyframes shakeAnimation {
+        0% { transform: rotate(0deg); }
+        10% { transform: rotate(10deg); }
+        20% { transform: rotate(-10deg); }
+        30% { transform: rotate(10deg); }
+        40% { transform: rotate(-10deg); }
+        50% { transform: rotate(0deg); }
+        100% { transform: rotate(0deg); }
+      }
+    
+      .shake {
+        animation: shakeAnimation 1s infinite;
+      }
+    </style>
+    
+    <script>
+      const playBtn = document.getElementById('playBtn');
+      const backgroundMusic = document.getElementById('backgroundMusic');
+    
+      playBtn.addEventListener('click', function() {
+        if (backgroundMusic.paused) {
+          backgroundMusic.play();
+          playBtn.classList.add('shake');
+        } else {
+          backgroundMusic.pause();
+          playBtn.classList.remove('shake');
+        }
+      });
+    </script>
+    
 </body>
 </html>
