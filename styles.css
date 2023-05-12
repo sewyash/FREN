@@ -226,3 +226,27 @@ select {
 #ownerControls {
   display: none;
 }
+
+#playBtn {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1px;
+  z-index: 9999;
+}
+
+#buyBtn {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 60px;
+  z-index: 9999;
+}
+
+#audioContainer {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 60px;
+  z-index: 9998;
+}
