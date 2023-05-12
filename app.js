@@ -906,11 +906,22 @@ async function callContractMethod(methodName, ...args) {
 
 function initEventListeners() {
     initOwnerButtons();
-    document.getElementById("stakeBtn").addEventListener("click", async () => {
-      const stakeAmount = BigInt(document.getElementById("tierInput").value) * BigInt("1000000000000000000");
-      await contract.methods.makeFren(stakeAmount.toString()).send({ from: selectedAccount });
-      refreshData();
-    });
+	
+	document.getElementById("tierInput").addEventListener("input", function() {
+		const stakeAmount = BigInt(this.value) * BigInt("1000000000000000000");
+		const stakeBtn = document.getElementById("stakeBtn");
+		if (stakeAmount >= BigInt("1000000000000000000000000")) {
+			stakeBtn.disabled = false;
+		} else {
+			stakeBtn.disabled = true;
+		}
+	});
+
+	document.getElementById("stakeBtn").addEventListener("click", async () => {
+		const stakeAmount = BigInt(document.getElementById("tierInput").value) * BigInt("1000000000000000000");
+		await contract.methods.makeFren(stakeAmount.toString()).send({ from: selectedAccount });
+		refreshData();
+	});
 
   document.getElementById("stopBeingFrenBtn").addEventListener("click", async () => {
     await contract.methods.stopBeingFren().send({ from: selectedAccount });
@@ -928,8 +939,75 @@ function initEventListeners() {
     refreshData();
   });
 
+  document.getElementById("stakeMinBtn").addEventListener("click", async () => {
+    const stakeAmount = BigInt(1000000000000000000000000);
+    await contract.methods.makeFren(stakeAmount.toString()).send({ from: selectedAccount });
+    refreshData();
+});
+
+document.getElementById("stakeBalanceBtn").addEventListener("click", async () => {
+    const stakeAmount = await contract.methods.balanceOf(selectedAccount);
+    await contract.methods.makeFren(stakeAmount.toString()).send({ from: selectedAccount });
+    refreshData();
+});
+
   setInterval(refreshData, 1000);
 }
+
+async function getBalance(){
+	const balance = await contract.methods.balanceOf(selectedAccount).call();
+	return balance;
+}
+setInterval(async function() {
+	const balance = await getBalance(selectedAccount);
+    const stakeMinBtn = document.getElementById("stakeMinBtn");
+    const stakeBalanceBtn = document.getElementById("stakeBalanceBtn");
+	const leaveQueueBtn = document.getElementById("leaveQueueBtn");
+	const stopBeingFrenBtn = document.getElementById("stopBeingFrenBtn");
+	const autoFrenFlagBtn = document.getElementById("autoFren");
+	const lastFrenInQueue = await contract.methods.lastFrenInQueue().call();
+	const isFrend = await contract.methods.isFrended(selectedAccount).call();
+	const owner = await contract.methods.owner().call();
+	const autoFrenFlag = await contract.methods.autoFrenFlag(selectedAccount).call();
+
+	if (lastFrenInQueue !== selectedAccount) {
+		leaveQueueBtn.hidden = true;
+	} else {
+		leaveQueueBtn.hidden = false;
+	}
+
+	if(autoFrenFlag){
+		autoFrenFlagBtn.checked = true;
+	} else {
+		autoFrenFlagBtn.checked = false;
+	}
+
+	if(isFrend){
+		stopBeingFrenBtn.hidden = false;
+	} else {
+		stopBeingFrenBtn.hidden = true;
+	}
+
+    if (balance < BigInt("1000000000000000000000000") && !isFrend) {
+        stakeMinBtn.disabled = false;
+        stakeBalanceBtn.disabled = false;
+    } else {
+        stakeMinBtn.disabled = true;
+        stakeBalanceBtn.disabled = true;
+    }
+
+	// Get a reference to the #ownerControls div
+	const ownerControls = document.getElementById('ownerControls');
+
+	// Assume ownerAccount is the account address of the owner
+	let ownerAccount = owner; // Replace with actual owner account address
+
+
+	if (selectedAccount.toLowerCase() === ownerAccount.toLowerCase()) {
+		ownerControls.style.display = 'block';
+		console.log("owner is "+ owner);
+	}
+}, 1000);
 
 
   async function getFrenPairDetails(frenPairIndex) {
@@ -948,7 +1026,7 @@ function initEventListeners() {
       startTimestamp
     };
   }
-  
+
   async function refreshData() {
     const lastFrenInQueue = await contract.methods.lastFrenInQueue().call();
     const isFrend = await contract.methods.isFrended(selectedAccount).call();
@@ -970,6 +1048,14 @@ function initEventListeners() {
         }
   
         if (pairedAddress) {
+			
+		  stopBeingFrenBtn.hidden = false;
+		  minFrenTime = await contract.methods.minFrenTime().call();
+			if(Date.now() - frenPairDetails.startTimestamp >= minFrenTime){
+				stopBeingFrenBtn.disabled = false;
+			} else {
+				stopBeingFrenBtn.disabled = true;
+			}
           document.getElementById("frenPair").innerHTML = pairedAddress;
   
           let initialBurnedTokens = 0;
@@ -986,7 +1072,7 @@ function initEventListeners() {
           const estFren = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed, interestRate).call();
           let val = initialBurnedTokens.toString();
   
-          document.getElementById("frenDetails").innerHTML = (estFren / 10 ** 18).toFixed(4);
+          document.getElementById("frenDetails").innerHTML = ((estFren / 10 ** 18)+ (initialBurnedTokens / 10 ** 18)).toFixed(4);
   
           frenPairContainer.style.display = "block";
         }
@@ -1004,12 +1090,6 @@ function initEventListeners() {
       frenPairContainer.style.display = "none";
     }
   
-    const owner = await contract.methods.owner().call();
-    if (selectedAccount.toLowerCase() === owner.toLowerCase()) {
-      document.getElementById("ownerControls").style.display = "block";
-    } else {
-      document.getElementById("ownerControls").style.display = "none";
-    }
   }
   
 
