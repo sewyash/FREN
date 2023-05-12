@@ -25,7 +25,7 @@ body {
     font-weight: lighter;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: unset;
-    margin-top: -75px;
+    margin-top: 75px;
     position: relative;
     margin-left: 50;
 }
