@@ -976,6 +976,19 @@ document.getElementById("stakeBalanceBtn").addEventListener("click", async () =>
     refreshData();
 });
 
+const playBtn = document.getElementById('playBtn');
+const backgroundMusic = document.getElementById('backgroundMusic');
+
+playBtn.addEventListener('click', function() {
+  if (backgroundMusic.paused) {
+	backgroundMusic.play();
+	playBtn.classList.add('shake');
+  } else {
+	backgroundMusic.pause();
+	playBtn.classList.remove('shake');
+  }
+});
+
   setInterval(refreshData, 1000);
 }
 
