@@ -1013,6 +1013,10 @@ setInterval(async function() {
 
 	if (lastFrenInQueue !== selectedAccount) {
 		leaveQueueBtn.hidden = true;
+		if(!isFrend){
+			document.getElementById("frenPair").innerHTML = "You are currently in the queue, fren!";
+			document.getElementById("frenDetails").innerHTML = "A FREN should join you soon!";
+		}
 	} else {
 		leaveQueueBtn.hidden = false;
 	}
