@@ -1,5 +1,5 @@
 // app.js
-const contractAddress = "0x97a48045A77C4A2a972569d1BE44103Bf1432317";
+const contractAddress = "0x3362C28d075dA9209Fe04FC0D2952089130303dC";
 const abi = [
 	{
 		"inputs": [],
@@ -630,19 +630,6 @@ const abi = [
 	},
 	{
 		"inputs": [],
-		"name": "leaderBonus",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "makeFrenPrice",
 		"outputs": [
 			{
@@ -727,6 +714,44 @@ const abi = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "queueTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "stakeAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -895,14 +920,14 @@ async function callContractMethod(methodName, ...args) {
     });
   
     document.getElementById("isInFrenPairBtn").addEventListener("click", () => {
-      callContractMethod("isFrended", selectedAccount);
+      callContractMethod("userToFrenPairIndex", 0);
     });
   
     document.getElementById("isInQueueBtn").addEventListener("click", () => {
       callContractMethod("lastFrenInQueue");
     });
   }
-  
+
 
 function initEventListeners() {
     initOwnerButtons();
@@ -940,13 +965,13 @@ function initEventListeners() {
   });
 
   document.getElementById("stakeMinBtn").addEventListener("click", async () => {
-    const stakeAmount = BigInt(1000000000000000000000000);
-    await contract.methods.makeFren(stakeAmount.toString()).send({ from: selectedAccount });
+	const stakeAmount = BigInt("1000000000000000000000000");
+	await contract.methods.makeFren(stakeAmount.toString()).send({ from: selectedAccount });
     refreshData();
 });
 
 document.getElementById("stakeBalanceBtn").addEventListener("click", async () => {
-    const stakeAmount = await contract.methods.balanceOf(selectedAccount);
+    const stakeAmount = await contract.methods.balanceOf(selectedAccount).call();
     await contract.methods.makeFren(stakeAmount.toString()).send({ from: selectedAccount });
     refreshData();
 });
@@ -959,6 +984,7 @@ async function getBalance(){
 	return balance;
 }
 setInterval(async function() {
+	document.getElementById("backgroundMusic").volume = 0.1;
 	const balance = await getBalance(selectedAccount);
     const stakeMinBtn = document.getElementById("stakeMinBtn");
     const stakeBalanceBtn = document.getElementById("stakeBalanceBtn");
@@ -969,6 +995,8 @@ setInterval(async function() {
 	const isFrend = await contract.methods.isFrended(selectedAccount).call();
 	const owner = await contract.methods.owner().call();
 	const autoFrenFlag = await contract.methods.autoFrenFlag(selectedAccount).call();
+	//console.log("Frended: " + isFrend);
+	//console.log("Fren flag: "+ autoFrenFlag);
 
 	if (lastFrenInQueue !== selectedAccount) {
 		leaveQueueBtn.hidden = true;
@@ -988,7 +1016,7 @@ setInterval(async function() {
 		stopBeingFrenBtn.hidden = true;
 	}
 
-    if (balance < BigInt("1000000000000000000000000") && !isFrend) {
+    if (balance >= BigInt("1000000000000000000000000") && !isFrend) {
         stakeMinBtn.disabled = false;
         stakeBalanceBtn.disabled = false;
     } else {
@@ -1126,5 +1154,7 @@ async function calculateBurnRate(contractInstance) {
     return burnRate / 100;
 }
   
-
+window.onload = function() {
+    document.getElementById("backgroundMusic").play();
+};
 init();
