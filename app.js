@@ -1,5 +1,5 @@
 // app.js
-const contractAddress = "0x3362C28d075dA9209Fe04FC0D2952089130303dC";
+const contractAddress = "0x4c0D2e3351f08ad6524d23c076CbFc055E74d04A";
 const abi = [
 	{
 		"inputs": [],
@@ -1029,6 +1029,17 @@ setInterval(async function() {
 
 	if(isFrend){
 		stopBeingFrenBtn.hidden = false;
+		const frenPairIndex = await contract.methods.userToFrenPairIndex(selectedAccount).call();
+        const frenPairDetails = await getFrenPairDetails(frenPairIndex);
+		const minFrenTime = await contract.methods.minFrenTime().call();
+		const startTime = frenPairDetails.startTimestamp;
+		console.log("Start time is: "+startTime);
+		console.log("current time is: "+ Date.now());
+		if((Date.now()/1000) - frenPairDetails.startTimestamp >= minFrenTime){
+			stopBeingFrenBtn.disabled = false;
+		} else {
+			stopBeingFrenBtn.disabled = true;
+		}
 	} else {
 		stopBeingFrenBtn.hidden = true;
 	}
@@ -1093,14 +1104,7 @@ setInterval(async function() {
         }
   
         if (pairedAddress) {
-			
-		  stopBeingFrenBtn.hidden = false;
 		  minFrenTime = await contract.methods.minFrenTime().call();
-			if(Date.now() - frenPairDetails.startTimestamp >= minFrenTime){
-				stopBeingFrenBtn.disabled = false;
-			} else {
-				stopBeingFrenBtn.disabled = true;
-			}
           document.getElementById("frenPair").innerHTML = pairedAddress;
   
           let initialBurnedTokens = 0;
