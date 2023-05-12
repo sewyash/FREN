@@ -20,7 +20,7 @@ body {
     background-color: #262626;
     border-radius: 10px;
     padding: 20px;
-    width: 30%;
+    width: 35%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     font-weight: lighter;
     -webkit-font-smoothing: none;
@@ -39,6 +39,13 @@ button {
 
 button:hover {
     background-color: #2dff3b;
+}
+
+
+button:disabled {
+  background-color: #cccccc; /* Change this to the desired color */
+  color: #888888; /* Change text color */
+  cursor: not-allowed; /* Change cursor */
 }
 
 select {
@@ -180,4 +187,42 @@ select {
     outline: none;
     text-align: center;
     cursor: pointer;
+}
+
+.tooltip {
+  font-size: 14px !important;
+  padding: 3px;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.tooltip .tooltiptext {
+  font-size: 14px !important;
+  visibility: hidden;
+  width: 150px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%; 
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+#ownerControls {
+  display: none;
 }
