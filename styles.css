@@ -25,6 +25,7 @@ body {
     font-weight: lighter;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: unset;
+    margin-top: -75px;
 }
 
 button {
@@ -228,25 +229,39 @@ select {
 }
 
 #playBtn {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 1px;
+  position: absolute;
+  left: 48.9%;
+  bottom: 30px;
   z-index: 9999;
 }
 
 #buyBtn {
-  position: fixed;
+  position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 60px;
+  bottom:64px;
   z-index: 9999;
 }
 
 #audioContainer {
-  position: fixed;
+  position: absolute;
   left: 50%;
   transform: translateX(-50%);
   bottom: 60px;
   z-index: 9998;
+}
+
+@keyframes shakeAnimation {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(10deg); }
+  20% { transform: rotate(-10deg); }
+  30% { transform: rotate(10deg); }
+  40% { transform: rotate(-10deg); }
+  50% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.shake {
+  animation: shakeAnimation 1s infinite;
+  transform-origin: center 50%;
 }
