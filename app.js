@@ -1,5 +1,5 @@
 // app.js
-const contractAddress = "0x736D5e6CeDb1c3b37f91af95E6D9dB3dc2F6a9aC";
+const contractAddress = "0x9Ce72321Eb94F158d56E554b779054B3dc012792";
 const abi = [
 	{
 		"inputs": [],
@@ -894,9 +894,9 @@ async function callContractMethod(methodName, ...args) {
   function initOwnerButtons() {
     document.getElementById("calculateInterestBtn").addEventListener("click", async () => {
       // Replace the values below with the appropriate input values
-      const amount = 1000;
+      const amount = BigInt(1000000000000000000000000);
       const timeElapsed = 86400;
-      const dailyRate = 200;
+      const dailyRate = 10;
   
       callContractMethod("calculateInterest", amount, timeElapsed, dailyRate);
     });
@@ -1033,8 +1033,8 @@ setInterval(async function() {
         const frenPairDetails = await getFrenPairDetails(frenPairIndex);
 		const minFrenTime = await contract.methods.minFrenTime().call();
 		const startTime = frenPairDetails.startTimestamp;
-		console.log("Start time is: "+startTime);
-		console.log("current time is: "+ Date.now());
+		//console.log("Start time is: "+startTime);
+		//console.log("current time is: "+ Date.now());
 		if((Date.now()/1000) - frenPairDetails.startTimestamp >= minFrenTime){
 			stopBeingFrenBtn.disabled = false;
 		} else {
@@ -1118,10 +1118,14 @@ setInterval(async function() {
           const startTime = frenPairDetails.startTimestamp;
   
           const timeElapsed = currentTime - startTime;
-          const estFren = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed, interestRate).call();
-          let val = initialBurnedTokens.toString();
-  
-          document.getElementById("frenDetails").innerHTML = ((estFren / 10 ** 18)+ (initialBurnedTokens / 10 ** 18)).toFixed(4);
+          const estFren = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed , interestRate).call();
+		  let val = new BN(initialBurnedTokens).add(new BN(estFren));
+		  
+		  // convert val to a decimal string with 18 decimal places
+		  let valStr = val.toString();
+		  valStr = valStr.slice(0, -18) + '.' + valStr.slice(-4);
+		  
+		  document.getElementById("frenDetails").innerHTML = (val/10**18).toFixed(4);
   
           frenPairContainer.style.display = "block";
         }
@@ -1139,6 +1143,32 @@ setInterval(async function() {
       frenPairContainer.style.display = "none";
     }
   
+  }
+
+  const BN = Web3.utils.BN;
+
+  function calculateInterest(initialBurnedTokens, timeElapsed, interestRate) {
+	  const numberOfDaysElapsed = Math.floor(timeElapsed / 86400);
+	  const dailyBonusRate = new BN('1000'); // 0.01% daily bonus rate in basis points
+	  const cappedDailyBonusRate = new BN('9900'); // 0.99% capped daily bonus rate in basis points
+  
+	  let lastAmount = new BN(initialBurnedTokens);
+	  let interestEarned = new BN('0');
+	  for (let i = 0; i < numberOfDaysElapsed; i++) {
+		  const dailyBonus = i < 99 ? new BN(i).mul(dailyBonusRate) : cappedDailyBonusRate;
+		  const dailyInterestRate = new BN('10000').add(dailyBonus); // interest rate in basis points
+		  const dailyInterest = lastAmount.mul(dailyInterestRate).div(new BN('1000000')); // divide by 1e6 because interest rate is in basis points and we're using 18 decimal places
+		  interestEarned = interestEarned.add(dailyInterest);
+		  lastAmount = lastAmount.add(dailyInterest);
+	  }
+  
+	  const remainingSecondsInDay = timeElapsed % 86400;
+	  const remainingBonus = numberOfDaysElapsed < 99 ? new BN(numberOfDaysElapsed).mul(dailyBonusRate) : cappedDailyBonusRate;
+	  const remainingInterestRate = new BN('10000').add(remainingBonus);
+	  const remainingInterest = lastAmount.mul(remainingInterestRate).mul(new BN(remainingSecondsInDay)).div(new BN('864000000')); // divide by 86400 for seconds in a day and by 1e6 for basis points and decimal places
+	  interestEarned = interestEarned.add(remainingInterest);
+  
+	  return interestEarned.toString();
   }
   
 
