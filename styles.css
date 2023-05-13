@@ -19,15 +19,15 @@ body {
 .container {
     background-color: #262626;
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     width: 35%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     font-weight: lighter;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: unset;
-    margin-top: 75px;
     position: relative;
-    margin-left: 50;
+    margin-bottom: 60px;
+    align-self: auto;
 }
 
 .buttons-wrapper {
@@ -196,6 +196,7 @@ select {
     outline: none;
     text-align: center;
     cursor: pointer;
+    font-size: 10px;
 }
 
 .tooltip {
