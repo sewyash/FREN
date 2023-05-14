@@ -931,6 +931,12 @@ async function callContractMethod(methodName, ...args) {
 
 function initEventListeners() {
     initOwnerButtons();
+
+	const volumeSlider = document.getElementById('volumeSlider');
+
+		volumeSlider.addEventListener('input', function() {
+		backgroundMusic.volume = volumeSlider.value;
+		});
 	
 	document.getElementById("tierInput").addEventListener("input", function() {
 		const stakeAmount = BigInt(this.value) * BigInt("1000000000000000000");
@@ -981,11 +987,15 @@ const backgroundMusic = document.getElementById('backgroundMusic');
 
 playBtn.addEventListener('click', function() {
   if (backgroundMusic.paused) {
-	backgroundMusic.play();
-	playBtn.classList.add('shake');
+    backgroundMusic.play();
+    playBtn.style.transform = "translateX(-57%)";
+    playBtn.classList.add('shake');
+	playBtn.innerText = "🎵";
   } else {
-	backgroundMusic.pause();
-	playBtn.classList.remove('shake');
+    backgroundMusic.pause();
+    playBtn.style.transform = "";
+    playBtn.classList.remove('shake');
+	playBtn.innerText = "🔇";
   }
 });
 
@@ -997,7 +1007,6 @@ async function getBalance(){
 	return balance;
 }
 setInterval(async function() {
-	document.getElementById("backgroundMusic").volume = 0.1;
 	const balance = await getBalance(selectedAccount);
     const stakeMinBtn = document.getElementById("stakeMinBtn");
     const stakeBalanceBtn = document.getElementById("stakeBalanceBtn");
@@ -1118,7 +1127,7 @@ setInterval(async function() {
           const startTime = frenPairDetails.startTimestamp;
   
           const timeElapsed = currentTime - startTime;
-          const estFren = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed , interestRate).call();
+          const estFren = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed, interestRate).call();
 		  let val = new BN(initialBurnedTokens).add(new BN(estFren));
 		  
 		  // convert val to a decimal string with 18 decimal places
@@ -1205,7 +1214,4 @@ async function calculateBurnRate(contractInstance) {
     return burnRate / 100;
 }
   
-window.onload = function() {
-    document.getElementById("backgroundMusic").play();
-};
 init();
