@@ -14,6 +14,7 @@ body {
   overflow: hidden;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
+    overflow: auto;
 }
 
 .container {
