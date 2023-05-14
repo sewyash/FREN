@@ -10,16 +10,20 @@
 </head>
 <body>
     <div class="conga-line">
-        <img src="pepe1.png" alt="Pepe 1">
-        <img src="pepe2.png" alt="Pepe 2">
-        <img src="pepe3.png" alt="Pepe 3">
-        <img src="pepe4.png" alt="Pepe 4">
-        <img src="pepe5.png" alt="Pepe 5">
-        <img src="pepe6.png" alt="Pepe 6">
+      <img src="pepe1.png" alt="Pepe 1">
+      <img src="pepe2.png" alt="Pepe 2">
+      <img src="pepe3.png" alt="Pepe 3">
+      <img src="pepe4.png" alt="Pepe 4">
+      <img src="pepe5.png" alt="Pepe 5">
+      <img src="pepe6.png" alt="Pepe 6">
     </div>
+  </div>
     <div class="background">
         <div class="lights"></div>
         </div>
+        <br>
+        <br>
+        
     <div class="container">
         <h1>FREN Token Staking</h1>
         <p>Total Supply: <span id="totalSupply"></span> FREN</p>
@@ -40,6 +44,8 @@
         </span>
         <hr>
         <h2>Fren Pair</h2>
+        <p><span class="green-text" id="queueStatus">You are not in the queue!</span></p>
+        <p><span class="white-text" id="frenInQueue"></span></p>
         <div id="frenPair-container">
             <p><span class="green-text">Your fren is:</span> <span id="frenPair" class="white-text"></span></p>
             <p><span class="green-text">Est FREN earned:</span> <span id="frenDetails" class="white-text"></span>        
@@ -70,8 +76,6 @@
             <button id="isInFrenPairBtn">Is In Fren Pair</button>
             <button id="isInQueueBtn">Last In Queue</button>
           </div>
-          <br>
-          <br>
           <div class="buttons-wrapper">
             <a id="buyBtn" href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x9Ce72321Eb94F158d56E554b779054B3dc012792&use=V2">
               <button>Buy FREN!</button>
