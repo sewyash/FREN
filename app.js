@@ -1024,10 +1024,6 @@ setInterval(async function() {
 	//console.log("Frended: " + isFrend);
 	//console.log("Fren flag: "+ autoFrenFlag);
 
-	if(isFrend){
-		queue.hidden = true;
-	}
-
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
 		if(lastFrenInQueueLower !== "0x0000000000000000000000000000000000000000"){
