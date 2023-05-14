@@ -76,9 +76,15 @@
             <a id="buyBtn" href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x9Ce72321Eb94F158d56E554b779054B3dc012792&use=V2">
               <button>Buy FREN!</button>
           </a>
+          </div>
+          <span class="tooltip">?
+            <span class="tooltiptext">Ensure slippage is set to at LEAST the current burn rate!</span>
+        </span>
           <br>
           <br>
-            <button id="playBtn" class="shake">♫</button>
+            <button id="playBtn">🔇</button>
+            <br>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
             <audio id="backgroundMusic" loop>
                 <source src="./frenMusic.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
