@@ -80,19 +80,19 @@ select {
   }
 
   .conga-line {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: -150%;
     width: 500%;
     z-index: -1;
     filter: blur(10px);
-    animation: conga 180s linear infinite;
+    animation: conga 120s linear infinite;
   }
   
   .conga-line img {
     width: 200px;
     height: auto;
-    margin: 0 350px;
+    margin: 0 600px;
     opacity: 50%;
     transform: scale(3);
     bottom: 0;
@@ -103,8 +103,9 @@ select {
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translateX(-100%);
     }
+
   }
 
   .lights {
