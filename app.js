@@ -1017,18 +1017,34 @@ setInterval(async function() {
 	const isFrend = await contract.methods.isFrended(selectedAccount).call();
 	const owner = await contract.methods.owner().call();
 	const autoFrenFlag = await contract.methods.autoFrenFlag(selectedAccount).call();
+	const selectedAccountLower = selectedAccount.toLowerCase();
+	const lastFrenInQueueLower = lastFrenInQueue.toLowerCase();
+	const queue = document.getElementById("queueStatus");
+	const queue2 = document.getElementById("frenInQueue");
 	//console.log("Frended: " + isFrend);
 	//console.log("Fren flag: "+ autoFrenFlag);
 
-	if (lastFrenInQueue !== selectedAccount) {
-		leaveQueueBtn.hidden = true;
-		if(!isFrend){
-			document.getElementById("frenPair").innerHTML = "You are currently in the queue, fren!";
-			document.getElementById("frenDetails").innerHTML = "A FREN should join you soon!";
-		}
-	} else {
-		leaveQueueBtn.hidden = false;
+	if(isFrend){
+		queue.hidden = true;
 	}
+
+	if (lastFrenInQueueLower !== selectedAccountLower) {
+		leaveQueueBtn.hidden = true;
+		if(lastFrenInQueueLower !== "0x0000000000000000000000000000000000000000"){
+			queue.innerText = "A fren is waiting in the queue!";
+			queue2.innerText = lastFrenInQueue;
+		} else {
+			queue.innerText = "The queue is empty!";
+		}
+	  } else {
+		if (!isFrend) {
+		  queue.hidden = false;
+		  queue.innerText = "You are waiting in the queue!";
+		} else {
+		queue.hidden = false;
+		leaveQueueBtn.hidden = false;
+		}
+	  }
 
 	if(autoFrenFlag){
 		autoFrenFlagBtn.checked = true;
