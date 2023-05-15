@@ -834,22 +834,27 @@ let web3;
 let contract;
 let accounts;
 let selectedAccount;
+let lightCount = 0;
 
 const lightsContainer = document.querySelector(".lights");
 
 function createLight() {
-    const light = document.createElement("div");
-    light.classList.add("light");
-    light.style.color = "rgb(0, 255, 0)";
-    light.style.fontSize = `${getRandomInt(50)}px`;
-    light.style.left = `${getRandomInt(window.innerWidth)}px`;
-    light.innerHTML = "$";
-    lightsContainer.appendChild(light);
-  
-    setTimeout(() => {
-      light.remove();
-    }, 8000);
+	if(lightCount < 20){
+		lightCount++;
+		const light = document.createElement("div");
+		light.classList.add("light");
+		light.style.color = "rgb(0, 255, 0)";
+		light.style.fontSize = `${getRandomInt(50)}px`;
+		light.style.left = `${getRandomInt(window.innerWidth)}px`;
+		light.innerHTML = "$";
+		lightsContainer.appendChild(light);
+	
+		setTimeout(() => {
+		light.remove();
+		lightCount--;
+		}, 8000);
   }
+}
   
   setInterval(() => {
     createLight();
