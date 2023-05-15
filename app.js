@@ -999,20 +999,41 @@ fetch('./frenMusic.mp3')
 });
 
 let isPlaying = false;
+let glowIntervalId;
+
+function startGlowEffect() {
+	if (glowIntervalId) {
+	  clearInterval(glowIntervalId); // Clear any existing interval
+	}
+  
+	if (isPlaying) {
+	  glowIntervalId = setInterval(() => {
+		const currentTime = audioContext.currentTime;
+		const audioDuration = audioBuffer.duration;
+		const timeUntilGlow = 13 - (currentTime % audioDuration);
+		
+		if (timeUntilGlow <= 0.1) {
+		  makeFrenGlow();
+		}
+	  }, 100); // Check every 100 milliseconds
+	}
+  }
 
 playBtn.addEventListener('click', function() {
-  if(!isPlaying){
+  if (!isPlaying) {
     startMusic();
     playBtn.style.transform = "translateX(-57%)";
     playBtn.classList.add('shake');
     playBtn.innerText = "🎵";
     isPlaying = true;
-  } else{
+    startGlowEffect(); // Start the glow effect
+  } else {
     stopMusic();
     playBtn.style.transform = "";
     playBtn.classList.remove('shake');
     playBtn.innerText = "🔇";
     isPlaying = false;
+    clearInterval(glowIntervalId); // Clear the glow effect interval
   }
 });
 
@@ -1144,7 +1165,30 @@ setInterval(async function() {
       startTimestamp
     };
   }
+window.addEventListener('DOMContentLoaded', (event) => {
+    // Wrap each occurrence of "FREN" in a <span> element
+    document.body.innerHTML = document.body.innerHTML.replace(/FREN/g, '<span class="fren">FREN</span>')
 
+
+});
+
+function makeFrenGlow() {
+	console.log("money!");
+	// Get all the "FREN" elements
+	let frenElems = document.getElementsByClassName('fren');
+
+	// Add the "glowing" class to all "FREN" elements
+	for (let i = 0; i < frenElems.length; i++) {
+		frenElems[i].classList.add('glowing');
+	}
+
+	// Remove the "glowing" class after 1 second
+	setTimeout(function() {
+		for (let i = 0; i < frenElems.length; i++) {
+			frenElems[i].classList.remove('glowing');
+		}
+	}, 1000);
+}
   async function refreshData() {
     const lastFrenInQueue = await contract.methods.lastFrenInQueue().call();
     const isFrend = await contract.methods.isFrended(selectedAccount).call();
