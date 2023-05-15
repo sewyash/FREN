@@ -1226,7 +1226,7 @@ setInterval(async function() {
 		  var timeDifference = timestamp - previousTimestamp;
 		  var moveDistance = speed * timeDifference;
 		  imgTag.style.right = (parseInt(imgTag.style.right) + moveDistance) + 'px';
-  
+			
 		  if (parseInt(imgTag.style.right) > window.innerWidth) {
 			imgTag.parentNode.removeChild(imgTag);
 			imgFree = true;
