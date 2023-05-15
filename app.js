@@ -932,11 +932,6 @@ async function callContractMethod(methodName, ...args) {
 function initEventListeners() {
     initOwnerButtons();
 
-	const volumeSlider = document.getElementById('volumeSlider');
-
-		volumeSlider.addEventListener('input', function() {
-			backgroundMusic.volume = volumeSlider.value;
-		});
 	
 	document.getElementById("tierInput").addEventListener("input", function() {
 		const stakeAmount = BigInt(this.value) * BigInt("1000000000000000000");
@@ -983,21 +978,63 @@ document.getElementById("stakeBalanceBtn").addEventListener("click", async () =>
 });
 
 const playBtn = document.getElementById('playBtn');
-const backgroundMusic = document.getElementById('backgroundMusic');
+const volumeSlider = document.getElementById('volumeSlider'); 
+
+let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+let sourceNode;
+let gainNode = audioContext.createGain(); // Create GainNode for volume control
+let audioBuffer;
+
+// Load audio file
+fetch('./frenMusic.mp3')
+.then(response => response.arrayBuffer())
+.then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+.then(decodedAudioBuffer => {
+  audioBuffer = decodedAudioBuffer;
+});
+
+let isPlaying = false;
 
 playBtn.addEventListener('click', function() {
-  if (backgroundMusic.paused) {
-    backgroundMusic.play();
+  if(!isPlaying){
+    startMusic();
     playBtn.style.transform = "translateX(-57%)";
     playBtn.classList.add('shake');
-	playBtn.innerText = "🎵";
-  } else {
-    backgroundMusic.pause();
+    playBtn.innerText = "🎵";
+    isPlaying = true;
+  } else{
+    stopMusic();
     playBtn.style.transform = "";
     playBtn.classList.remove('shake');
-	playBtn.innerText = "🔇";
+    playBtn.innerText = "🔇";
+    isPlaying = false;
   }
 });
+
+volumeSlider.addEventListener('input', function() {
+  gainNode.gain.value = +volumeSlider.value;
+});
+
+function startMusic() {
+  // Stop the previous sound if it's playing
+  if (sourceNode) {
+    sourceNode.stop();
+  }
+
+  sourceNode = audioContext.createBufferSource();
+  sourceNode.buffer = audioBuffer;
+  sourceNode.loop = true;  // Enable looping
+  sourceNode.connect(gainNode); // Connect sourceNode to gainNode
+  gainNode.connect(audioContext.destination); // Connect gainNode to destination
+  sourceNode.start(0);
+}
+
+function stopMusic() {
+  if (sourceNode) {
+    sourceNode.stop();
+  }
+}
+
 
   setInterval(refreshData, 1000);
 }
