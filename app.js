@@ -1,5 +1,5 @@
 // app.js
-const contractAddress = "0x9Ce72321Eb94F158d56E554b779054B3dc012792";
+const contractAddress = "0xa8F83697B09a1434b3EbB98473c11fa0af3Df232";
 const abi = [
 	{
 		"inputs": [],
@@ -208,19 +208,6 @@ const abi = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "toggleAutoFren",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -375,25 +362,6 @@ const abi = [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "autoFrenFlag",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -720,6 +688,19 @@ const abi = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "precision",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -834,13 +815,12 @@ let web3;
 let contract;
 let accounts;
 let selectedAccount;
-let lightCount = 0;
 
 const lightsContainer = document.querySelector(".lights");
+console.log(lightsContainer);
+
 
 function createLight() {
-	if(lightCount < 20){
-		lightCount++;
 		const light = document.createElement("div");
 		light.classList.add("light");
 		light.style.color = "rgb(0, 255, 0)";
@@ -851,21 +831,15 @@ function createLight() {
 	
 		setTimeout(() => {
 		light.remove();
-		lightCount--;
 		}, 8000);
   }
-}
   
-  setInterval(() => {
+ setInterval(() => {
     createLight();
   }, 500);
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-
-// Draw and update the circles every 10 milliseconds
-setInterval(() => {
-}, 1000);
 
 
 async function init() {
@@ -907,7 +881,7 @@ async function callContractMethod(methodName, ...args) {
     });
   
     document.getElementById("getBurnRateBtn").addEventListener("click", () => {
-      callContractMethod("_calculateBurnRate");
+      callContractMethod("isFrended", selectedAccount);
     });
   
     document.getElementById("setBurnPauseBtn").addEventListener("click", () => {
@@ -965,10 +939,6 @@ function initEventListeners() {
     refreshData();
   });
 
-  document.getElementById("autoFren").addEventListener("click", async () => {
-    await contract.methods.toggleAutoFren().send({ from: selectedAccount });
-    refreshData();
-  });
 
   document.getElementById("stakeMinBtn").addEventListener("click", async () => {
 	const stakeAmount = BigInt("1000000000000000000000000");
@@ -999,25 +969,6 @@ fetch('./frenMusic.mp3')
 });
 
 let isPlaying = false;
-let glowIntervalId;
-
-function startGlowEffect() {
-	if (glowIntervalId) {
-	  clearInterval(glowIntervalId); // Clear any existing interval
-	}
-  
-	if (isPlaying) {
-	  glowIntervalId = setInterval(() => {
-		const currentTime = audioContext.currentTime;
-		const audioDuration = audioBuffer.duration;
-		const timeUntilGlow = 13 - (currentTime % audioDuration);
-		
-		if (timeUntilGlow <= 0.1) {
-		  makeFrenGlow();
-		}
-	  }, 100); // Check every 100 milliseconds
-	}
-  }
 
 playBtn.addEventListener('click', function() {
   if (!isPlaying) {
@@ -1026,14 +977,12 @@ playBtn.addEventListener('click', function() {
     playBtn.classList.add('shake');
     playBtn.innerText = "🎵";
     isPlaying = true;
-    startGlowEffect(); // Start the glow effect
   } else {
     stopMusic();
     playBtn.style.transform = "";
     playBtn.classList.remove('shake');
     playBtn.innerText = "🔇";
     isPlaying = false;
-    clearInterval(glowIntervalId); // Clear the glow effect interval
   }
 });
 
@@ -1075,17 +1024,14 @@ setInterval(async function() {
     const stakeBalanceBtn = document.getElementById("stakeBalanceBtn");
 	const leaveQueueBtn = document.getElementById("leaveQueueBtn");
 	const stopBeingFrenBtn = document.getElementById("stopBeingFrenBtn");
-	const autoFrenFlagBtn = document.getElementById("autoFren");
 	const lastFrenInQueue = await contract.methods.lastFrenInQueue().call();
 	const isFrend = await contract.methods.isFrended(selectedAccount).call();
 	const owner = await contract.methods.owner().call();
-	const autoFrenFlag = await contract.methods.autoFrenFlag(selectedAccount).call();
 	const selectedAccountLower = selectedAccount.toLowerCase();
 	const lastFrenInQueueLower = lastFrenInQueue.toLowerCase();
 	const queue = document.getElementById("queueStatus");
 	const queue2 = document.getElementById("frenInQueue");
-	//console.log("Frended: " + isFrend);
-	//console.log("Fren flag: "+ autoFrenFlag);
+
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
 		if(lastFrenInQueueLower !== "0x0000000000000000000000000000000000000000"){
@@ -1096,6 +1042,7 @@ setInterval(async function() {
 		}
 	  } else {
 		if (!isFrend) {
+			leaveQueueBtn.hidden = false;
 		  queue.hidden = false;
 		  queue.innerText = "You are waiting in the queue!";
 		} else {
@@ -1103,12 +1050,6 @@ setInterval(async function() {
 		leaveQueueBtn.hidden = false;
 		}
 	  }
-
-	if(autoFrenFlag){
-		autoFrenFlagBtn.checked = true;
-	} else {
-		autoFrenFlagBtn.checked = false;
-	}
 
 	if(isFrend){
 		stopBeingFrenBtn.hidden = false;
@@ -1165,30 +1106,7 @@ setInterval(async function() {
       startTimestamp
     };
   }
-window.addEventListener('DOMContentLoaded', (event) => {
-    // Wrap each occurrence of "FREN" in a <span> element
-    document.body.innerHTML = document.body.innerHTML.replace(/FREN/g, '<span class="fren">FREN</span>')
 
-
-});
-
-function makeFrenGlow() {
-	console.log("money!");
-	// Get all the "FREN" elements
-	let frenElems = document.getElementsByClassName('fren');
-
-	// Add the "glowing" class to all "FREN" elements
-	for (let i = 0; i < frenElems.length; i++) {
-		frenElems[i].classList.add('glowing');
-	}
-
-	// Remove the "glowing" class after 1 second
-	setTimeout(function() {
-		for (let i = 0; i < frenElems.length; i++) {
-			frenElems[i].classList.remove('glowing');
-		}
-	}, 1000);
-}
   async function refreshData() {
     const lastFrenInQueue = await contract.methods.lastFrenInQueue().call();
     const isFrend = await contract.methods.isFrended(selectedAccount).call();
