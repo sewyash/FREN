@@ -13,11 +13,11 @@ body {
   background-attachment: fixed;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
-    overflow: auto;
+  overflow: auto;
 }
 
 .container {
-  position: fixed;
+  position: absolute;
   background-color: #262626;
   border-radius: 10px;
   padding: 10px;
@@ -78,23 +78,28 @@ select option {
   color: #ffffff;
 }
 
-.conga-line {
-  position: fixed;
-  bottom: 0;
-  left: -150%;
-  width: 500%;
-  z-index: -1;
-  filter: blur(10px);
-  animation: conga 120s linear infinite;
+.parentContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.conga-line img {
+#imgContainer {
+  width: 400%;
+  position: relative;
+  height: 200px; /* Adjust based on your needs */
+  margin-top: auto;
+}
+
+.pepeimg {
+  position: absolute;
   width: 200px;
   height: auto;
-  margin: 0 600px;
-  opacity: 50%;
   transform: scale(3);
+  opacity: 50%;
   bottom: 0;
+  right: 0;
+  filter: blur(4px);
 }
 
 @keyframes conga {
