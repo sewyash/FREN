@@ -1217,6 +1217,8 @@ setInterval(async function() {
 	  var imgSrc = imgArray[randomIndex];
 	  var imgTag = document.createElement('img');
 	  
+	  imgTag.style.backgroundColor = 'transparent'; // This will be shown until the image loads
+	  
 	  imgTag.src = imgSrc;
 	  imgTag.className = 'pepeimg';
 	  imgTag.style.right = '-1200px'; // Start off the screen to the right
@@ -1232,7 +1234,7 @@ setInterval(async function() {
 		  var moveDistance = speed * timeDifference;
 		  imgTag.style.right = (parseInt(imgTag.style.right) + moveDistance) + 'px';
 			
-		  if (parseInt(imgTag.style.right) > window.innerWidth) {
+		  if (parseInt(imgTag.style.right) > window.innerWidth + 200) {
 			imgTag.parentNode.removeChild(imgTag);
 			imgFree = true;
 		  } else {
