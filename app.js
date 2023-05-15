@@ -935,7 +935,7 @@ function initEventListeners() {
 	const volumeSlider = document.getElementById('volumeSlider');
 
 		volumeSlider.addEventListener('input', function() {
-		backgroundMusic.volume = volumeSlider.value;
+			backgroundMusic.volume = volumeSlider.value;
 		});
 	
 	document.getElementById("tierInput").addEventListener("input", function() {
@@ -1023,7 +1023,6 @@ setInterval(async function() {
 	const queue2 = document.getElementById("frenInQueue");
 	//console.log("Frended: " + isFrend);
 	//console.log("Fren flag: "+ autoFrenFlag);
-
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
 		if(lastFrenInQueueLower !== "0x0000000000000000000000000000000000000000"){
@@ -1165,6 +1164,53 @@ setInterval(async function() {
     }
   
   }
+
+  var imgArray = ['./pepe1.png', './pepe2.png', './pepe3.png', './pepe4.png', './pepe5.png', './pepe6.png'];
+  var imgFree = true;
+  
+  function spawnImage() {
+	if(imgFree){
+	  imgFree = false;
+	  var randomIndex = Math.floor(Math.random() * imgArray.length);
+	  var imgSrc = imgArray[randomIndex];
+	  var imgTag = document.createElement('img');
+	  
+	  imgTag.src = imgSrc;
+	  imgTag.className = 'pepeimg';
+	  imgTag.style.right = '-1200px'; // Start off the screen to the right
+  
+	  document.getElementById('imgContainer').appendChild(imgTag);
+  
+	  var previousTimestamp = null;
+	  var speed = 0.15; // Speed in pixels per ms. Adjust as needed.
+  
+	  function moveImage(timestamp) {
+		if (previousTimestamp) {
+		  var timeDifference = timestamp - previousTimestamp;
+		  var moveDistance = speed * timeDifference;
+		  imgTag.style.right = (parseInt(imgTag.style.right) + moveDistance) + 'px';
+  
+		  if (parseInt(imgTag.style.right) > window.innerWidth) {
+			imgTag.parentNode.removeChild(imgTag);
+			imgFree = true;
+		  } else {
+			requestAnimationFrame(moveImage);
+		  }
+		} else {
+		  requestAnimationFrame(moveImage);
+		}
+  
+		previousTimestamp = timestamp;
+	  }
+  
+	  requestAnimationFrame(moveImage);
+	}
+  }
+  
+  setInterval(spawnImage, 2000); // Change '2000' to spawn images more or less often
+  
+  
+
 
   const BN = Web3.utils.BN;
 
