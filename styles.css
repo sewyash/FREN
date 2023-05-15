@@ -105,6 +105,7 @@ select option {
   min-height: 100vh;
 }
 
+
 #imgContainer {
   width: 110vw;
   position: fixed;
@@ -135,6 +136,16 @@ select option {
     transform: translateX(-100%);
   }
 
+}
+
+.glowing {
+  animation: glow 1s forwards;
+}
+
+@keyframes glow {
+  0% { text-shadow: none; }
+  50% { text-shadow: 0 0 10px rgb(0, 255, 68), 0 0 20px rgb(17, 255, 33), 0 0 30px rgb(0, 255, 55), 0 0 40px rgb(74, 255, 19); }
+  100% { text-shadow: none; }
 }
 
 .lights {
