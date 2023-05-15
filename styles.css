@@ -17,6 +17,26 @@ body {
   overflow-x: hidden;
 }
 
+@keyframes scroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100px -100px; /* adjust this value for faster or slower scrolling */
+  }
+}
+
+#scrolling-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./background.jpg') repeat;
+  z-index: -2;
+  animation: scroll 10s linear infinite; /* adjust the duration for faster or slower scrolling */
+}
+
 .container {
   position: absolute;
   background-color: #262626;
@@ -86,23 +106,26 @@ select option {
 }
 
 #imgContainer {
-  width: 400%;
-  position: relative;
-  height: 200px; /* Adjust based on your needs */
+  width: 110vw;
+  position: fixed;
+  height: 100vh; /* Adjust based on your needs */
   margin-top: auto;
+  overflow: hidden;
+  bottom: 0;
 }
 
 .pepeimg {
   position: absolute;
-  width: 200px;
-  height: auto;
-  transform: scale(3);
-  opacity: 50%;
-  bottom: 0;
+  width: auto;
+  height: 400px;
+
+  opacity: 90%;
+  bottom: -10px; /* Adjust this value */
   right: 0;
-  filter: blur(4px);
+  filter: blur(6px);
   z-index: -1;
 }
+
 
 @keyframes conga {
   0% {
