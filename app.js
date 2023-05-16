@@ -1018,6 +1018,10 @@ setInterval(async function() {
 	const lastFrenInQueueLower = lastFrenInQueue.toLowerCase();
 	const queue = document.getElementById("queueStatus");
 	const queue2 = document.getElementById("frenInQueue");
+	const totalFarmingText = document.getElementById("totalFarming");
+	const totalFarmingFren = await contract.methods.totalFarmingFren().call();
+
+	totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
 
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
