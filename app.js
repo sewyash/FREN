@@ -922,7 +922,7 @@ function initEventListeners() {
 
   document.getElementById("leaveQueueBtn").addEventListener("click", async () => {
     const tier = document.getElementById("tier").value;
-    await contract.methods.leaveQueue(tier).send({ from: selectedAccount });
+    await contract.methods.leaveQueue().send({ from: selectedAccount });
     refreshData();
   });
 
