@@ -34,7 +34,19 @@
         <button id="stakeBalanceBtn" disabled>Stake Balance</button>
       </div>
       <br>
-        <input type="number" id="tierInput" placeholder="Enter other # to stake">
+      <style>
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { 
+          -webkit-appearance: none; 
+          margin: 0; 
+        }
+        
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+        </style>
+        
+        <input type="number" id="tierInput" placeholder="Enter amount to stake">
         <button id="stakeBtn" disabled>Stake</button>
         <span class="tooltip">?
             <span class="tooltiptext">Minimum stake is 1 million FREN tokens. You will be either paired or put into the queue to pair. You need to unstake to stake again/more.</span>
