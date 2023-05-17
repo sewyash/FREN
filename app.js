@@ -1189,7 +1189,6 @@ setInterval(async function() {
 	  imgFree = false;
 	  var randomIndex = Math.floor(Math.random() * imgArray.length);
 	  var imgSrc = imgArray[randomIndex];
-	  console.log(imgSrc);
 	  var imgTag = document.createElement('img');
 	  
 	  imgTag.style.backgroundColor = 'transparent'; // This will be shown until the image loads
