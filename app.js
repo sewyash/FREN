@@ -866,6 +866,18 @@ async function callContractMethod(methodName, ...args) {
   
       callContractMethod("calculateInterest", amount, timeElapsed, dailyRate);
     });
+
+	document.getElementById("copyButton").addEventListener("click", function() {
+		navigator.clipboard.writeText(document.getElementById("address").textContent)
+		  .then(() => {
+			console.log('Address copied to clipboard!');
+			document.getElementById("copyButton").innerHTML = '<i class="fas fa-check"></i>';
+		  })
+		  .catch(err => {
+			console.error('Could not copy text: ', err);
+		  });
+	  });
+	  
   
     document.getElementById("getBurnRateBtn").addEventListener("click", () => {
       callContractMethod("isFrended", selectedAccount);
