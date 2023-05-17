@@ -1023,16 +1023,6 @@ setInterval(async function() {
 	const initialBurnedTokens = await contract.methods.stakeAmount(selectedAccount).call();
 	let stakeTime = await contract.methods.queueTime(selectedAccount).call();
 
-	if(stakeTime != 0){
-		frenPairElement.hidden = true;
-		console.log(stakeTime);
-		const currentTime = Math.floor(Date.now() / 1000); // UNIX time in seconds
-
-		const timeElapsed = currentTime - stakeTime;
-		const estFren = await contract.methods.earnedFren(selectedAccount).call();
-		let val = new BN(estFren);
-		document.getElementById("frenDetails").innerHTML = ((val/10**18)/3).toFixed(4);
-	}
 	totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
@@ -1048,6 +1038,14 @@ setInterval(async function() {
 		  queue.hidden = false;
 		  queue.innerText = "You are waiting in the queue!";
 		} else {
+			frenPairElement.hidden = true;
+			console.log(stakeTime);
+			const currentTime = Math.floor(Date.now() / 1000); // UNIX time in seconds
+	
+			const timeElapsed = currentTime - stakeTime;
+			const estFren = await contract.methods.earnedFren(selectedAccount).call();
+			let val = new BN(estFren);
+			document.getElementById("frenDetails").innerHTML = ((val/10**18)/3).toFixed(4);
 		queue.hidden = false;
 		leaveQueueBtn.hidden = false;
 		}
