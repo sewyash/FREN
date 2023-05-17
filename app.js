@@ -1158,6 +1158,17 @@ setInterval(async function() {
           const timeElapsed = currentTime - startTime;
           const estFren = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed, interestRate).call();
 		  let val = new BN(initialBurnedTokens).add(new BN(estFren));
+
+		  // Simulate a year's worth of interest
+			const interestEarnedSoFar = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed+31536000, interestRate).call();
+
+			// Calculate the APY
+			let APY = interestEarnedSoFar / initialBurnedTokens;
+
+			// Convert to a percentage
+			let APYPercentage = APY * 100
+
+			document.getElementById("apy").innerHTML = APYPercentage.toFixed(2)+"% APY"
 		  
 		  // convert val to a decimal string with 18 decimal places
 		  let valStr = val.toString();
