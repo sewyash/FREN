@@ -1034,7 +1034,7 @@ setInterval(async function() {
 
 	const totalFarmingText = document.getElementById("totalFarming");
 	const totalFarmingFren = await contract.methods.totalFarmingFren().call();
-	totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
+	totalFarmingText.innerHTML = "Total FREN farming:"+parseFloat((totalFarmingFren / 10 ** 18).toFixed(2)).toLocaleString('en-US');
 	
 	
 	if (lastFrenInQueueLower !== selectedAccountLower) {
@@ -1125,6 +1125,11 @@ setInterval(async function() {
     const lastFrenInQueue = await contract.methods.lastFrenInQueue().call();
     const isFrend = await contract.methods.isFrended(selectedAccount).call();
     const frenPairContainer = document.getElementById("frenPair-container");
+	let userBalance = await contract.methods.balanceOf(selectedAccount).call();
+
+	let balanceToShow = (userBalance / 10 ** 18).toFixed(2);
+	document.getElementById("userBalance").innerHTML = parseFloat(balanceToShow).toLocaleString('en-US');
+
   
     if (lastFrenInQueue !== selectedAccount) {
       if (isFrend) {
@@ -1183,7 +1188,7 @@ setInterval(async function() {
 		  let valStr = val.toString();
 		  valStr = valStr.slice(0, -18) + '.' + valStr.slice(-4);
 		  
-		  document.getElementById("frenDetails").innerHTML = (val/10**18).toFixed(4);
+		  document.getElementById("frenDetails").innerHTML = parseFloat((val/10**18).toFixed(4)).toLocaleString('en-US');
   
           frenPairContainer.style.display = "block";
         }
