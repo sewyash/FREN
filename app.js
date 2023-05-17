@@ -1181,7 +1181,7 @@ setInterval(async function() {
   
   }
 
-  var imgArray = ['./pepe1.png', './pepe2.png', './pepe3.png', './pepe4.png', './pepe5.png', './pepe6.png',, './pepe7.png',, './pepe8.png',, './pepe9.png', './pepe10.png',, './pepe11.png', './pepe12.png', './pepe13.png', './pepe14.png', './pepe15.png', './pepe16.png', './pepe17.png', './pepe18.png', './pepe19.png', './pepe20.png'];
+  var imgArray = ['./pepe1.png', './pepe2.png', './pepe3.png', './pepe4.png', './pepe5.png', './pepe6.png', './pepe7.png', './pepe8.png', './pepe9.png', './pepe10.png', './pepe11.png', './pepe12.png', './pepe13.png', './pepe14.png', './pepe15.png', './pepe16.png', './pepe17.png', './pepe18.png', './pepe19.png', './pepe20.png'];
   var imgFree = true;
   
   function spawnImage() {
@@ -1189,6 +1189,7 @@ setInterval(async function() {
 	  imgFree = false;
 	  var randomIndex = Math.floor(Math.random() * imgArray.length);
 	  var imgSrc = imgArray[randomIndex];
+	  console.log(imgSrc);
 	  var imgTag = document.createElement('img');
 	  
 	  imgTag.style.backgroundColor = 'transparent'; // This will be shown until the image loads
