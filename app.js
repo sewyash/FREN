@@ -1018,12 +1018,11 @@ setInterval(async function() {
 	const queue = document.getElementById("queueStatus");
 	const queue2 = document.getElementById("frenInQueue");
 	const frenPairElement = document.getElementById("frenPair");
+
 	const totalFarmingText = document.getElementById("totalFarming");
 	const totalFarmingFren = await contract.methods.totalFarmingFren().call();
-	const initialBurnedTokens = await contract.methods.stakeAmount(selectedAccount).call();
-	let stakeTime = await contract.methods.queueTime(selectedAccount).call();
-
 	totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
+
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
 		if(lastFrenInQueueLower !== "0x0000000000000000000000000000000000000000"){
