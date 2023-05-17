@@ -138,15 +138,6 @@ select option {
 
 }
 
-.glowing {
-  animation: glow 1s forwards;
-}
-
-@keyframes glow {
-  0% { text-shadow: none; }
-  50% { text-shadow: 0 0 10px rgb(0, 255, 68), 0 0 20px rgb(17, 255, 33), 0 0 30px rgb(0, 255, 55), 0 0 40px rgb(74, 255, 19); }
-  100% { text-shadow: none; }
-}
 
 .lights {
   position: fixed;
@@ -160,7 +151,6 @@ select option {
 .light {
   position: absolute;
   border-radius: 50%;
-  opacity: 0;
   animation: float 16s infinite;
 }
 
@@ -316,4 +306,14 @@ z-index: 9998;
 .shake {
 animation: shake 0.5s; 
 animation-iteration-count: infinite; 
+}
+
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }
