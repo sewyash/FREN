@@ -1029,12 +1029,14 @@ setInterval(async function() {
 	const lastFrenInQueueLower = lastFrenInQueue.toLowerCase();
 	const queue = document.getElementById("queueStatus");
 	const queue2 = document.getElementById("frenInQueue");
-	const frenPairElement = document.getElementById("frenPair");
+	const loneDetails = document.getElementById("loneDetails");
+	const frenDetails = document.getElementById("frenDetails");
 
 	const totalFarmingText = document.getElementById("totalFarming");
 	const totalFarmingFren = await contract.methods.totalFarmingFren().call();
 	totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
-
+	
+	
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
 		if(lastFrenInQueueLower !== "0x0000000000000000000000000000000000000000"){
@@ -1048,27 +1050,27 @@ setInterval(async function() {
 			leaveQueueBtn.hidden = false;
 		  queue.hidden = false;
 		  queue.innerText = "You are waiting in the queue!";
+		  loneDetails.hidden = false;
+		  console.log(stakeTime);
+		  let queueTime = await contract.methods.queueTime(selectedAccount).call();
+		  let timeElapsed = Date.now()/ 1000 - queueTime;
+		  const initialStake = await contract.methods.stakeAmount(selectedAccount).call();
+		  frenDetails.hidden = false;
+		  const estFren = calculateInterest(initialStake, timeElapsed, 10/3);
+		  let val = new BN(estFren);
+		  document.getElementById("frenDetails").innerHTML = (val/10**18).toFixed(4);
+		  document.getElementById("frenPair").innerHTML = "Currently alone in queue :(";
 		} else {
-			frenPairElement.hidden = true;
-			console.log(stakeTime);
-			const currentTime = Math.floor(Date.now() / 1000); // UNIX time in seconds
-	
-			const timeElapsed = currentTime - stakeTime;
-			const estFren = await contract.methods.earnedFren(selectedAccount).call();
-			let val = new BN(estFren);
-			document.getElementById("frenDetails").innerHTML = ((val/10**18)/3).toFixed(4);
 		queue.hidden = false;
 		leaveQueueBtn.hidden = false;
 		}
 	  }
 
 	if(isFrend){
-		frenPairElement.hidden = false;
 		stopBeingFrenBtn.hidden = false;
 		const frenPairIndex = await contract.methods.userToFrenPairIndex(selectedAccount).call();
         const frenPairDetails = await getFrenPairDetails(frenPairIndex);
 		const minFrenTime = await contract.methods.minFrenTime().call();
-		const startTime = frenPairDetails.startTimestamp;
 		//console.log("Start time is: "+startTime);
 		//console.log("current time is: "+ Date.now());
 		if((Date.now()/1000) - frenPairDetails.startTimestamp >= minFrenTime){
@@ -1119,7 +1121,7 @@ setInterval(async function() {
     };
   }
 
-  async function refreshData() {
+   async function refreshData() {
     const lastFrenInQueue = await contract.methods.lastFrenInQueue().call();
     const isFrend = await contract.methods.isFrended(selectedAccount).call();
     const frenPairContainer = document.getElementById("frenPair-container");
