@@ -1032,9 +1032,8 @@ setInterval(async function() {
 		const estFren = await contract.methods.earnedFren(selectedAccount).call();
 		let val = new BN(estFren);
 		document.getElementById("frenDetails").innerHTML = ((val/10**18)/3).toFixed(4);
-		totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
 	}
-
+	totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
 		if(lastFrenInQueueLower !== "0x0000000000000000000000000000000000000000"){
