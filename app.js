@@ -878,7 +878,7 @@ async function callContractMethod(methodName, ...args) {
   
     document.getElementById("setMinFrenTimeBtn").addEventListener("click", () => {
       // Replace '86400' with the appropriate value for the new minimum Fren time
-      contract.methods.updateMinFrenTime(7).send({ from: selectedAccount });
+      contract.methods.updateMinFrenTime(700).send({ from: selectedAccount });
     });
   
     document.getElementById("getTotalFarmingFrenBtn").addEventListener("click", () => {
@@ -1017,10 +1017,23 @@ setInterval(async function() {
 	const lastFrenInQueueLower = lastFrenInQueue.toLowerCase();
 	const queue = document.getElementById("queueStatus");
 	const queue2 = document.getElementById("frenInQueue");
+	const frenPairElement = document.getElementById("frenPair");
 	const totalFarmingText = document.getElementById("totalFarming");
 	const totalFarmingFren = await contract.methods.totalFarmingFren().call();
+	const initialBurnedTokens = await contract.methods.stakeAmount(selectedAccount).call();
+	let stakeTime = await contract.methods.queueTime(selectedAccount).call();
 
-	totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
+	if(stakeTime != 0){
+		frenPairElement.hidden = true;
+		console.log(stakeTime);
+		const currentTime = Math.floor(Date.now() / 1000); // UNIX time in seconds
+
+		const timeElapsed = currentTime - stakeTime;
+		const estFren = await contract.methods.earnedFren(selectedAccount).call();
+		let val = new BN(estFren);
+		document.getElementById("frenDetails").innerHTML = ((val/10**18)/3).toFixed(4);
+		totalFarmingText.innerHTML = "Total FREN farming:"+(totalFarmingFren / 10 ** 18).toFixed(2);
+	}
 
 	if (lastFrenInQueueLower !== selectedAccountLower) {
 		leaveQueueBtn.hidden = true;
@@ -1042,6 +1055,7 @@ setInterval(async function() {
 	  }
 
 	if(isFrend){
+		frenPairElement.hidden = false;
 		stopBeingFrenBtn.hidden = false;
 		const frenPairIndex = await contract.methods.userToFrenPairIndex(selectedAccount).call();
         const frenPairDetails = await getFrenPairDetails(frenPairIndex);
