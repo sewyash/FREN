@@ -1050,7 +1050,6 @@ setInterval(async function() {
 		  queue.hidden = false;
 		  queue.innerText = "You are waiting in the queue!";
 		  frenDetails.hidden = false;
-		  console.log(stakeTime);
 		  let queueTime = await contract.methods.queueTime(selectedAccount).call();
 		  let timeElapsed = Date.now()/ 1000 - queueTime;
 		  const initialStake = await contract.methods.stakeAmount(selectedAccount).call();
