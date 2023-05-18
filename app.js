@@ -1029,7 +1029,6 @@ setInterval(async function() {
 	const lastFrenInQueueLower = lastFrenInQueue.toLowerCase();
 	const queue = document.getElementById("queueStatus");
 	const queue2 = document.getElementById("frenInQueue");
-	const loneDetails = document.getElementById("loneDetails");
 	const frenDetails = document.getElementById("frenDetails");
 
 	const totalFarmingText = document.getElementById("totalFarming");
@@ -1050,12 +1049,11 @@ setInterval(async function() {
 			leaveQueueBtn.hidden = false;
 		  queue.hidden = false;
 		  queue.innerText = "You are waiting in the queue!";
-		  loneDetails.hidden = false;
+		  frenDetails.hidden = false;
 		  console.log(stakeTime);
 		  let queueTime = await contract.methods.queueTime(selectedAccount).call();
 		  let timeElapsed = Date.now()/ 1000 - queueTime;
 		  const initialStake = await contract.methods.stakeAmount(selectedAccount).call();
-		  frenDetails.hidden = false;
 		  const estFren = calculateInterest(initialStake, timeElapsed, 10/3);
 		  let val = new BN(estFren);
 		  document.getElementById("frenDetails").innerHTML = (val/10**18).toFixed(4);
