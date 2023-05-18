@@ -1165,8 +1165,8 @@ setInterval(async function() {
           const estFren = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed, interestRate).call();
 		  let val = new BN(initialBurnedTokens).add(new BN(estFren));
 
-			// Simulate a year's worth of interest
-			const interestEarnedInYear = await contract.methods.calculateInterest(initialBurnedTokens, 31536000, interestRate).call();
+			// Simulate a year's worth of interest from now
+			const interestEarnedInYear = await contract.methods.calculateInterest(initialBurnedTokens, timeElapsed+31536000, interestRate).call();
 
 			// Calculate the total balance after a year
 			let totalBalanceAfterYear = Number(initialBurnedTokens) + Number(interestEarnedInYear);
