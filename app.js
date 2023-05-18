@@ -804,7 +804,6 @@ let accounts;
 let selectedAccount;
 
 const lightsContainer = document.querySelector(".lights");
-console.log(lightsContainer);
 
 
 function createLight() {
