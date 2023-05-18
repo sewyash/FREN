@@ -914,7 +914,7 @@ function initEventListeners() {
 	document.getElementById("tierInput").addEventListener("input", function() {
 		const stakeAmount = BigInt(this.value) * BigInt("1000000000000000000");
 		const stakeBtn = document.getElementById("stakeBtn");
-		if (stakeAmount >= BigInt("1000000000000000000000000")) {
+		if (stakeAmount >= BigInt("1000000000000000000000000") && userBalance >= stakeAmount) {
 			stakeBtn.disabled = false;
 		} else {
 			stakeBtn.disabled = true;
@@ -1121,11 +1121,12 @@ setInterval(async function() {
     };
   }
 
+  let userBalance;
    async function refreshData() {
     const lastFrenInQueue = await contract.methods.lastFrenInQueue().call();
     const isFrend = await contract.methods.isFrended(selectedAccount).call();
     const frenPairContainer = document.getElementById("frenPair-container");
-	let userBalance = await contract.methods.balanceOf(selectedAccount).call();
+	userBalance = await contract.methods.balanceOf(selectedAccount).call();
 
 	let balanceToShow = (userBalance / 10 ** 18).toFixed(2);
 	document.getElementById("userBalance").innerHTML = parseFloat(balanceToShow).toLocaleString('en-US');
