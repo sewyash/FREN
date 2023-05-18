@@ -1054,7 +1054,7 @@ setInterval(async function() {
 		  const initialStake = await contract.methods.stakeAmount(selectedAccount).call();
 		  const estFren = calculateInterest(initialStake, timeElapsed, 10/3);
 		  let val = new BN(estFren);
-		  document.getElementById("frenDetails").innerHTML = (val/10**18).toFixed(4);
+		  frenDetails.innerText = "Est FREN earned in queue: " + (val/10**18).toFixed(4);
 		  document.getElementById("frenPair").innerHTML = "Currently alone in queue :(";
 		} else {
 		queue.hidden = false;
