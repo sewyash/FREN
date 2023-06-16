@@ -613,21 +613,6 @@ async function claimTokens() {
   }
 }
 
-//UX function to display totalClaimed variable from deployed contract.
-async function getTotalClaimed() {
-    const web3 = new Web3(window.ethereum);
-    const contract = new web3.eth.Contract(contractABI, contractAddress);
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const account = accounts[0];
-    const totalClaimed = await contract.methods.totalClaimed().call();
-    let convValue = (totalClaimed / 10 ** 18).toFixed(0);
-
-    document.getElementById('totalClaimed').innerHTML = `Total Claimed: ${convValue}`;
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    getTotalClaimed();
-});
 
 document.getElementById('connectButton').addEventListener('click', connectWallet);
 document.getElementById('claimButton').addEventListener('click', claimTokens);
