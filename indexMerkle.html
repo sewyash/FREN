@@ -43,12 +43,13 @@
         </div>
             <br>
             <button id="connectButton">Connect Wallet</button>
-            <button id="claimButton" disabled>Mint Sigil</button>
+            <button id="mintButton" disabled>Mint Sigil</button>
             <br>
             <div>
-                <button id="tokenButton1" disabled>Initial Offering</button>
-                <button id="tokenButton2" disabled>Weekly Offering</button>
-            </div>  
+                <button id="claimButton" disabled>Initial Offering</button>
+                <button id="weeklyClaimButton" disabled>Weekly Offering</button>
+            </div>
+            <div><input type="number" id="idInput" placeholder="Enter ID of sigil to claim with"></div>  
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
