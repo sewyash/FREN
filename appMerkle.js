@@ -864,8 +864,17 @@ async function connectWallet() {
 
       // Check if the user has a valid proof
       if (lowercaseProofs[userAccount]) {
-        document.getElementById('mintButton').disabled = false;
+		let openStatus = await contract.methods.WLmintOpen().call();
+		if(openStatus){
+			document.getElementById('mintButton').disabled = false;
+			document.getElementById('mintButtonPublic').style.display = 'none';
+		}
       } else {
+		let publicOpenStatus = await contract.methods.publicMintOpen().call();
+		if(!publicOpenStatus) {
+			document.getElementById('mintButtonPublic').style.display = 'relative';
+			document.getElementById('mintButton').style.display = 'none';
+		}
         //Alert user they do not have a proof in the json file
         alert('Your address does not have a valid proof.');
       }
