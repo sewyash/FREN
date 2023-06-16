@@ -854,6 +854,8 @@ async function connectWallet() {
 	  if(nftBalance > 0) {
 		document.getElementById('claimButton').disabled = false;
 		document.getElementById('weeklyClaimButton').disabled = false;
+		document.getElementById('mintButton').disabled = true;
+		document.getElementById('mintButtonPublic').disabled = true;
 	  } else {
 		document.getElementById('claimButton').style.display = 'none';
 		document.getElementById('weeklyClaimButton').style.display = 'none';
@@ -866,12 +868,16 @@ async function connectWallet() {
       if (lowercaseProofs[userAccount]) {
 		let openStatus = await contract.methods.WLmintOpen().call();
 		if(openStatus){
-			document.getElementById('mintButton').disabled = false;
+			if(nftBalance >= 1){
+				document.getElementById('mintButton').disabled = true;
+			} else {
+				document.getElementById('mintButton').disabled = false;
+			}
 			document.getElementById('mintButtonPublic').style.display = 'none';
 		}
       } else {
 		let publicOpenStatus = await contract.methods.publicMintOpen().call();
-		if(!publicOpenStatus) {
+		if(publicOpenStatus) {
 			document.getElementById('mintButtonPublic').style.display = 'relative';
 			document.getElementById('mintButton').style.display = 'none';
 		}
