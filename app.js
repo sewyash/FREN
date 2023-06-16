@@ -1,5 +1,5 @@
 // app.js
-const contractAddress = "0x636eECCDdd069c4A4875377b8aFB16791aF9D16A";
+const contractAddress = "0x2a56c6741A2E4eAa65B125e435c6A6517F221d7E";
 const abi = [
 	{
 		"inputs": [],
@@ -551,19 +551,6 @@ const abi = [
 	},
 	{
 		"inputs": [],
-		"name": "minQueueTime",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "name",
 		"outputs": [
 			{
@@ -608,13 +595,7 @@ const abi = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_newAddress",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "renounceOwnership",
 		"outputs": [],
 		"stateMutability": "nonpayable",
@@ -631,6 +612,32 @@ const abi = [
 		"name": "setBurnPaused",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "sigilRewardContract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "sigilRewardPercentage",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -657,19 +664,6 @@ const abi = [
 		"name": "stopBeingFren",
 		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "supplyChangeRate",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -781,6 +775,19 @@ const abi = [
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "_contractAddress",
+				"type": "address"
+			}
+		],
+		"name": "updateSigilRewardContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -834,6 +841,7 @@ async function init() {
     try {
       accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       selectedAccount = accounts[0];
+	  console.log(selectedAccount);
       contract = new web3.eth.Contract(abi, contractAddress);
       initEventListeners();
       refreshData();
@@ -1313,5 +1321,5 @@ async function calculateBurnRate(contractInstance) {
   
     return burnRate / 100;
 }
-  
+
 init();
