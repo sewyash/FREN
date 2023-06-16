@@ -1,0 +1,494 @@
+body {
+    color: rgb(249, 249, 249);
+    background-color: #1a1a1a;
+    margin: 20px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    background-size: 400% 400%;
+    background-attachment: fixed;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    overflow: hidden;
+    overflow-x: hidden;
+  }
+
+  @font-face {
+    font-family: 'tribal';
+    src: url('./Tribal_Play.ttf') format('truetype');
+  }
+  
+  body {
+    font-family: 'tribal', cursive;
+    font-size: medium;
+  }
+  
+  
+  @keyframes scroll {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 100px -100px; /* adjust this value for faster or slower scrolling */
+    }
+  }
+  
+  #bgImg {
+    z-index: -1;
+    background-image: url('./bg.png');
+    background-position: center;  /* This will center the image in the div */
+    z-index: 1;  /* This sets the layer level. Higher numbers are "on top" of lower numbers. */
+    position: relative; 
+  }
+  #scrolling-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('./background.jpg') repeat;
+    z-index: -2;
+    animation: scroll 10s linear infinite; /* adjust the duration for faster or slower scrolling */
+  }
+  
+  #background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+  }
+
+  #sky {
+    z-index: -2;
+    background: url('stars.png') no-repeat center center fixed;
+    background-size: cover;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 45%; /* adjust this as needed to align with the top of the ground */
+  }
+
+  #mountains {
+    z-index: -2;
+    background: url('mountains.png') no-repeat center center fixed;
+    background-size: cover;
+    width: 100%;
+    position: absolute;
+    top: 5%;
+    left: 0;
+    height: 40%; /* adjust this as needed to align with the top of the ground */
+  }
+  
+  #sidebar {
+    border-radius: 10px;
+    padding: 10px;
+    position: fixed;
+    top: 0;          /* Align to the top of the viewport */
+    left: 0;         /* Align to the left of the viewport */
+    margin-top: 3%;  /* Optional - creates some spacing from the top */
+    padding: 20px;
+  }
+
+  #ground {
+    z-index: -2;
+    background: linear-gradient(to bottom, rgba(3, 104, 8, 0.2) 0%,rgba(3, 36, 1, 0) 100%);
+    width:100%;
+    position: absolute;
+    top:45%;
+    left:0;
+    height:25%;
+}
+
+#frogGod {
+  z-index: -1;
+  background: url('frogGod.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width:100%;
+  position: absolute;
+  top:23%;
+  left:0;
+  height:45%;
+}
+  
+  /*----------------------------------*/
+  
+  .droplet {
+    z-index: -2;
+    position: absolute;
+  }
+  
+  /*----------------------------------*/
+  
+  .flying {
+    z-index: -2;
+    position:absolute;
+    background-color: #FFF;
+    height: 20px;
+    width: 2px;
+    transform:rotate(20deg);
+    animation: 1.5s flying infinite linear;
+    opacity:0;
+  }
+  
+  /*----------------------------------*/
+  
+  @keyframes flying {
+  0% {
+    transform: translate(12000%, -4000%) rotate(20deg);
+    opacity:1
+  }
+  100% {
+    transform: translate(0,0) rotate(20deg);
+    opacity:1
+  }
+  }
+  
+  /*----------------------------------*/
+  
+  .splashing {
+    position:absolute;
+    background-color: #FFF;
+    height: 20px;
+    width: 80px;
+    margin-left:-40px;
+    margin-top:20px;
+    border-radius: 100%;
+    animation: 1.5s splashing infinite linear;
+    animation-delay: 1.5s;
+    opacity:0; 
+  }
+  
+  /*----------------------------------*/
+  
+  @keyframes splashing {
+    from {
+      opacity:1;
+      transform: scale(0);
+    }
+  }
+  
+  /*----------------------------------*/
+  
+  .container {
+    background-color: #040404;
+    border-radius: 10px;
+    margin-top: 3%;
+    padding: 10px;
+    width: 35%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    font-weight: lighter;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    align-self: auto;
+    max-width: 100vw;
+    margin-bottom: 3%;
+    z-index: 0;
+  
+    background-position: 0 0, 25px 25px;
+    background-size: 1000px 1000px;
+    border: 3px solid #000000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .FAQ {
+    border-radius: 10px;
+    padding: 10px;
+    width: 35%;
+    font-size: x-small;
+    font-weight: lighter;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    align-self: auto;
+    max-width: 100vw;
+    z-index: 0;
+    background-color: #1a1a1a;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    /* Removed the box-shadow so it doesn't have a background effect */
+  }
+  
+  
+  .buttons-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  }
+  
+  button {
+    background-color: #000000;
+    color: #000000;
+    border-color:#004a06;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-weight: 600;
+    color: #FFF;
+    cursor: pointer;
+    z-index: 3;
+  }
+  
+  button:hover {
+    background-color: #2dff3b;
+  }
+  
+  
+  button:disabled {
+  background-color: #cccccc; /* Change this to the desired color */
+  color: #888888; /* Change text color */
+  cursor: not-allowed; /* Change cursor */
+  }
+  
+  select {
+    background-color: #5bc962;
+    color: #000000;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  select:hover {
+    background-color: #2dff3b;
+  }
+  
+  select option {
+    background-color: #262626;
+    color: #ffffff;
+  }
+  
+  .parentContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    z-index: 0;
+  }
+  
+  
+  #imgContainer {
+    width: 110vw;
+    position: fixed;
+    height: 100vh; /* Adjust based on your needs */
+    margin-top: auto;
+    overflow: hidden;
+    bottom: 0;
+  }
+  
+  .pepeimg {
+    position: absolute;
+    width: auto;
+    height: 400px;
+  
+    opacity: 90%;
+    bottom: -10px; /* Adjust this value */
+    right: 0;
+    filter: blur(6px);
+    z-index: -1;
+  }
+  
+  
+  @keyframes conga {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  
+  }
+  
+  
+  .lights {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  
+  .light {
+    position: absolute;
+    border-radius: 50%;
+    animation: float 16s infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+      bottom: -10%;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.2);
+      bottom: 120%;
+    }
+  }
+  
+  #frenPair-container {
+    width: 100%;
+    font-size: 0.8em;
+    padding: 10px;
+    align-self: auto;
+  }
+  
+  #frenPair-container h2 {
+    font-size: 1em; /* smaller font size for h2 */
+    margin: 0 0 10px; /* add some margin to separate from p elements */
+  }
+  
+  #frenPair-container p {
+    margin: 0;
+    text-align: left;
+    word-wrap: break-word;
+    line-height: 20px; /* increased line-height to take up vertical space */
+    align-self: auto;
+  }
+  
+  #frenPair {
+    display: inline-block;
+    text-align: left;
+    max-width: 100%;
+    white-space: normal;
+    font-size: 0.8em;
+    align-self: auto;
+    color: #fffafa;
+  }
+  
+  #frenDetails {
+    align-self: auto;
+    text-align: left;
+    color: #fffafa;
+    display: inline-block;
+    max-width: 100%;
+    white-space: normal;
+    font-size: small;
+  }
+  
+  .green-text {
+    color: #00ff00; /* green color */
+  }
+  
+  .faintText {
+    opacity: 80%;
+    font-size: x-small;
+  }
+  
+  .white-text {
+    color: #fff; /* white color */
+    font-size: smaller;
+  }
+  
+  input[type="number"] {
+    background-color: #5bc962;
+    color: #000000;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+    font-size: 10px;
+  }
+  
+  .tooltip {
+  font-size: 14px !important;
+  padding: 3px;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  }
+  
+  .tooltip .tooltiptext {
+  font-size: 14px !important;
+  visibility: hidden;
+  width: 150px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%; 
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 1s;
+  }
+  
+  .tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  }
+  
+  #ownerControls {
+  display: none;
+  scale: 0.6;
+  }
+  
+  #playBtn {
+  position: relative;
+  margin-bottom: 20px;
+  z-index: 9999;
+  }
+  
+  #buyBtn {
+  position: relative;
+  transform: translateX(-50%);
+  margin-bottom: 80px;
+  z-index: 9999;
+  }
+  
+  #audioContainer {
+  position: relative;
+  transform: translateX(-50%);
+  z-index: 9998;
+  }
+  @keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
+  
+  .shake {
+  animation: shake 0.5s; 
+  animation-iteration-count: infinite; 
+  }
+  
+  input[type="number"]::-webkit-inner-spin-button, 
+  input[type="number"]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }

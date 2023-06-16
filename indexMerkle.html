@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesMerkle.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Mint Sigil</title>
+</head>
+<body>
+    <audio id="audio1" src="frogSounds.mp3" loop></audio>
+    <audio id="audio2" src="rainSounds.mp3" loop></audio>
+    
+    <script>
+      window.onload = async function() {
+        try {
+          let audio1 = document.getElementById("audio1");
+          let audio2 = document.getElementById("audio2");
+          
+          // Adjust the volume
+          audio2.volume = 1.0;  // 100% volume
+          audio1.volume = 0.5;  // 50% volume
+    
+          await audio1.play();
+          await audio2.play();
+        } catch(err) {
+          console.log(err);
+        }
+      };
+    </script>
+    <div>
+        <div id="frogGod"></div>
+        <div id="sky"></div>
+        <div id="mountains"></div>
+        <div id="ground"></div>
+        <div>
+        </div>
+        <div>
+          <div id="sidebar">
+            <button><a href="index.html">FREN Printer</a></button>
+        </div>
+            <br>
+            <button id="connectButton">Connect Wallet</button>
+            <button id="claimButton" disabled>Mint Sigil</button>
+            <br>
+            <div>
+                <button id="tokenButton1" disabled>Initial Offering</button>
+                <button id="tokenButton2" disabled>Weekly Offering</button>
+            </div>  
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
+    <script src="appMerkle.js"></script>
+</body>
