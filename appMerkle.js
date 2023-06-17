@@ -1,4 +1,4 @@
-const contractAddress = '0x17C51aaA57da38C7daD55197B5aDBC4B19863B79'; //deployed Merkle contract and ABI
+const contractAddress = '0xBfcED426ac102D3Cd98ab14257eC9a97E78dEF10'; //deployed Merkle contract and ABI
 const contractABI = [
 	{
 		"inputs": [
@@ -11,6 +11,11 @@ const contractABI = [
 				"internalType": "bytes32",
 				"name": "_merkleRoot",
 				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "_token",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -243,19 +248,6 @@ const contractABI = [
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "maxPerWallet",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -501,7 +493,33 @@ const contractABI = [
 	},
 	{
 		"inputs": [],
+		"name": "token",
+		"outputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "tokenCounter",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "tokenMintReward",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -601,7 +619,7 @@ const contractABI = [
 		"type": "function"
 	}
 ];
-const buybackerContractAddress = '0xfb7afa57c750F749DE21a7C96541EF28cE01347d';
+const buybackerContractAddress = '0xD83939e8A5ff6025113736a84CCb40EDf7Cb60f5';
 const buybackerABI = [
 	{
 		"inputs": [
@@ -694,135 +712,11 @@ const buybackerABI = [
 		"type": "receive"
 	}
 ];
-const claimContractAddress = '0xbA2C4F0fC3c309fF2d48c7de69AF52dD0b4155E7';
-const claimContractABI = [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_nft",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_token",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "amountToClaim",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "claim",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "hasClaimed",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "isOpen",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "nft",
-		"outputs": [
-			{
-				"internalType": "contract IERC721",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "openClaim",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "token",
-		"outputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-];
 
 
 let web3;
 let userAccount;
 let contract;
-let claimContract;
 let buybackerContract;
 let lowercaseProofs;
 
@@ -843,7 +737,6 @@ async function connectWallet() {
   if (window.ethereum) {
     web3 = new Web3(window.ethereum);
     contract = new web3.eth.Contract(contractABI, contractAddress);
-	claimContract = new web3.eth.Contract(claimContractABI, claimContractAddress);
 	buybackerContract = new web3.eth.Contract(buybackerABI, buybackerContractAddress);
     try {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -909,6 +802,19 @@ async function mint() {
   }
 }
 
+async function mintPublic() {
+	try {
+	  await contract.methods.mintPublic().send({ 
+		  from: userAccount,
+		  value: web3.utils.toWei('0.2', 'ether')
+	  });
+	  alert('Sigil minted successfully!');
+	} catch (error) {
+	  console.error(error);
+	  alert('Error minting Sigil. Please try again.');
+	}
+  }
+
 async function claimInitialTokens() {
 	const id = BigInt(document.getElementById("idInput").value);
 	try {
@@ -938,7 +844,7 @@ async function claimInitialTokens() {
 
 document.getElementById('connectButton').addEventListener('click', connectWallet);
 document.getElementById('mintButton').addEventListener('click', mint);
-document.getElementById('claimButton').addEventListener('click', claimInitialTokens);
+document.getElementById('mintButtonPublic').addEventListener('click', mint);
 document.getElementById('weeklyClaimButton').addEventListener('click', claimWeeklyTokens);
 var App = {
     numberOfDroplets: 40,
