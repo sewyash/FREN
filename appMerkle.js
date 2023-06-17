@@ -756,12 +756,11 @@ async function connectWallet() {
 		}
       } else {
 		let publicOpenStatus = await contract.methods.publicMintOpen().call();
+		console.log(publicOpenStatus);
 		if(publicOpenStatus) {
-			document.getElementById('mintButtonPublic').style.display = 'relative';
-			document.getElementById('mintButton').style.display = 'none';
+			document.getElementById('mintButton').style.display = 'relative';
+			document.getElementById('mintButton').disabled = false;
 		}
-        //Alert user they do not have a proof in the json file
-        alert('Your address does not have a valid proof.');
       }
     } catch (error) {
       console.error(error);
@@ -816,7 +815,7 @@ async function mint() {
   async function claimWeeklyTokens() {
 	const id = BigInt(document.getElementById("idInput").value);
 	try {
-	  await buybackerContract.methods.claimTokenOffering(id).send({ 
+ 	  await buybackerContract.methods.claimTokenOffering(id).send({ 
 		  from: userAccount
 	  });
 	  alert('Claimed successfully, return in a weeks time...');
