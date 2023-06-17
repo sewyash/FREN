@@ -732,6 +732,7 @@ async function connectWallet() {
 	  
 	  let nftBalance = await contract.methods.balanceOf(userAccount).call();
 	  if(nftBalance > 0) {
+		loadUserNFTs();
 		document.getElementById('weeklyClaimButton').disabled = false;
 		document.getElementById('mintButton').disabled = true;
 		document.getElementById('mintButtonPublic').disabled = true;
@@ -824,6 +825,58 @@ async function mint() {
 	  alert('Error claiming. Please try again.');
 	}
   }
+
+  async function loadUserNFTs() {
+    try {
+        const maxTokenId = await contract.methods.balanceOf(userAccount).call(); // maximum number of NFTs is 400, so max token ID is 399
+        const ipfsGateway = "https://ipfs.io/ipfs/"; // Public IPFS Gateway
+
+        // Loop through all possible token IDs
+        for (let tokenId = 0; tokenId <= maxTokenId; tokenId++) {
+            
+            // Get the owner of the NFT with the current token ID
+            const owner = await contract.methods.ownerOf(tokenId).call();
+            
+            // Check if the owner of the current NFT is the connected user's account
+            if (owner.toLowerCase() === userAccount.toLowerCase()) {
+                
+                // Get token URI which points to the metadata
+                const tokenURI = await contract.methods.tokenURI(tokenId).call();
+
+                // Convert the ipfs:// URL to an HTTP URL through the IPFS gateway
+                const httpTokenURI = tokenURI.replace("ipfs://", ipfsGateway);
+
+                // Fetch metadata from the token URI
+                const response = await fetch(httpTokenURI);
+                const metadata = await response.json();
+				console.log('Metadata:', metadata); // Log Metadata
+
+                // Append the NFT and metadata to the container in the HTML
+                displayNFT(metadata);
+            }
+        }
+    } catch (error) {
+        console.error("Error loading NFTs: ", error);
+    }
+}
+
+  
+function displayNFT(metadata) {
+    const nftContainer = document.getElementById("nft-container");
+    
+    const imageUrl = `https://ipfs.io/ipfs/${metadata.image.split('ipfs://')[1]}`; // Change the scheme of the image URL
+    
+    const nftCard = `
+        <div class="nft-card">
+            <img src="${imageUrl}" alt="${metadata.title}">
+            <h2>${metadata.title}</h2>
+            <p>${metadata.description}</p>
+        </div>`;
+    
+    nftContainer.innerHTML += nftCard;
+}
+
+
 
 
 document.getElementById('connectButton').addEventListener('click', connectWallet);
