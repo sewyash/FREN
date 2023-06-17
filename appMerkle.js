@@ -735,7 +735,6 @@ async function connectWallet() {
 		loadUserNFTs();
 		document.getElementById('weeklyClaimButton').disabled = false;
 		document.getElementById('mintButton').disabled = true;
-		document.getElementById('mintButtonPublic').disabled = true;
 	  } else {
 		document.getElementById('weeklyClaimButton').style.display = 'none';
 	  }
@@ -752,7 +751,6 @@ async function connectWallet() {
 			} else {
 				document.getElementById('mintButton').disabled = false;
 			}
-			document.getElementById('mintButtonPublic').style.display = 'none';
 		}
       } else {
 		let publicOpenStatus = await contract.methods.publicMintOpen().call();
@@ -880,7 +878,6 @@ function displayNFT(metadata, id) {
 
 document.getElementById('connectButton').addEventListener('click', connectWallet);
 document.getElementById('mintButton').addEventListener('click', mint);
-document.getElementById('mintButtonPublic').addEventListener('click', mint);
 document.getElementById('weeklyClaimButton').addEventListener('click', claimWeeklyTokens);
 var App = {
     numberOfDroplets: 40,
