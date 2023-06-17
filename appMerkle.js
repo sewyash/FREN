@@ -852,7 +852,7 @@ async function mint() {
 				console.log('Metadata:', metadata); // Log Metadata
 
                 // Append the NFT and metadata to the container in the HTML
-                displayNFT(metadata);
+                displayNFT(metadata, tokenId);
             }
         }
     } catch (error) {
@@ -861,15 +861,15 @@ async function mint() {
 }
 
   
-function displayNFT(metadata) {
+function displayNFT(metadata, id) {
     const nftContainer = document.getElementById("nft-container");
     
     const imageUrl = `https://ipfs.io/ipfs/${metadata.image.split('ipfs://')[1]}`; // Change the scheme of the image URL
     
     const nftCard = `
         <div class="nft-card">
-            <img src="${imageUrl}" alt="${metadata.title}">
-            <h2>${metadata.title}</h2>
+            <img src="${imageUrl}" alt="">
+            <h2>${id}</h2>
             <p>${metadata.description}</p>
         </div>`;
     
