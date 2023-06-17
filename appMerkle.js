@@ -745,12 +745,10 @@ async function connectWallet() {
 	  
 	  let nftBalance = await contract.methods.balanceOf(userAccount).call();
 	  if(nftBalance > 0) {
-		document.getElementById('claimButton').disabled = false;
 		document.getElementById('weeklyClaimButton').disabled = false;
 		document.getElementById('mintButton').disabled = true;
 		document.getElementById('mintButtonPublic').disabled = true;
 	  } else {
-		document.getElementById('claimButton').style.display = 'none';
 		document.getElementById('weeklyClaimButton').style.display = 'none';
 	  }
 
@@ -815,18 +813,6 @@ async function mintPublic() {
 	}
   }
 
-async function claimInitialTokens() {
-	const id = BigInt(document.getElementById("idInput").value);
-	try {
-	  await claimContract.methods.claim(id).send({ 
-		  from: userAccount
-	  });
-	  alert('Claimed successfully');
-	} catch (error) {
-	  console.error(error);
-	  alert('Error claiming. Please try again.');
-	}
-  }
 
   async function claimWeeklyTokens() {
 	const id = BigInt(document.getElementById("idInput").value);
