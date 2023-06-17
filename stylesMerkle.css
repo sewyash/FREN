@@ -14,7 +14,7 @@ body {
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: unset;
     overflow: hidden;
-    overflow-x: hidden;
+    overflow-y:scroll;
   }
 
   @font-face {
@@ -215,7 +215,29 @@ body {
     line-height: 1.5;
     /* Removed the box-shadow so it doesn't have a background effect */
   }
-  
+
+  #nft-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 250px; /* Fixed margin top to avoid pushing the buttons */
+    position: absolute; /* Allow container to be placed based on the absolute position */
+    top: 50%; /* Start halfway down the screen */
+}
+
+.nft-card {
+    max-width: 200px;
+    border: 1px solid #ddd;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.nft-card img {
+    max-width: 100%;
+    height: auto;
+}
   
   .buttons-wrapper {
   position: relative;
