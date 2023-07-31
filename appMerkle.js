@@ -656,11 +656,212 @@ const buybackerABI = [
 		"type": "receive"
 	}
 ];
-
+const claimContractAddress = '0xB3D95c62e619a4a2Fb728672d8BF41F2375dc6cA';
+const claimAbi = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_nft",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_token",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_tester",
+				"type": "address"
+			}
+		],
+		"name": "addTester",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "amountToClaim",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "claim",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "hasClaimed",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "isOpen",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nft",
+		"outputs": [
+			{
+				"internalType": "contract IERC721",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "testClaim",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "toggleClaim",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "token",
+		"outputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_newAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "updateClaimAmount",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
 
 let web3;
 let userAccount;
 let contract;
+let claimContract;
 let buybackerContract;
 let lowercaseProofs;
 
@@ -682,6 +883,7 @@ async function connectWallet() {
     web3 = new Web3(window.ethereum);
     contract = new web3.eth.Contract(contractABI, contractAddress);
 	buybackerContract = new web3.eth.Contract(buybackerABI, buybackerContractAddress);
+	claimContract = new web3.eth.Contract(claimAbi, claimContractAddress);
     try {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       userAccount = (await web3.eth.getAccounts())[0].toLowerCase();
@@ -835,12 +1037,27 @@ function displayNFT(metadata, id) {
     nftContainer.innerHTML += nftCard;
 }
 
+async function claimInitial(){
+	const id = BigInt(document.getElementById("idInput").value);
+	try {
+ 	  await claimContract.methods.claim(id).send({ 
+		  from: userAccount
+	  });
+	  alert('Claimed successfully');
+	} catch (error) {
+	  console.error(error);
+	  alert('Error claiming. Please try again.');
+	}
+}
+
 
 
 
 document.getElementById('connectButton').addEventListener('click', connectWallet);
 document.getElementById('mintButton').addEventListener('click', mint);
 document.getElementById('weeklyClaimButton').addEventListener('click', claimWeeklyTokens);
+document.getElementById('claimButton').addEventListener('click', claimInitial);
+
 var App = {
     numberOfDroplets: 40,
   
