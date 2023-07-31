@@ -747,7 +747,7 @@ async function mint() {
 		// Public mint is open and user is not whitelisted, send 0.2 ether
 		await contract.methods.mint([]).send({
 		  from: userAccount,
-		  value: web3.utils.toWei('0.5', 'ether'),
+		  value: web3.utils.toWei('0.05', 'ether'),
 		});
 	  } else {
 		// Public mint is not open and user is not whitelisted
