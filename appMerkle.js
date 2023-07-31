@@ -1,4 +1,4 @@
-const contractAddress = '0x0F4beCE8fC91A6932C8FA40f84f14f7d31e0F36F'; //deployed Merkle contract and ABI
+const contractAddress = '0xa7FC5Ae22F6278c80A0dd3B43933A0414e0d2328'; //deployed Merkle contract and ABI
 const contractABI = [
 	{
 		"inputs": [
@@ -11,11 +11,6 @@ const contractABI = [
 				"internalType": "bytes32",
 				"name": "_merkleRoot",
 				"type": "bytes32"
-			},
-			{
-				"internalType": "address",
-				"name": "_token",
-				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -493,33 +488,7 @@ const contractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "token",
-		"outputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "tokenCounter",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "tokenMintReward",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -619,7 +588,7 @@ const contractABI = [
 		"type": "function"
 	}
 ];
-const buybackerContractAddress = '0xB5790CD4438f7277A451cc50beC61199AD33267c';
+const buybackerContractAddress = '0x64D1A364AAB54bFED446E8D1002AA9f1e033cB3b';
 const buybackerABI = [
 	{
 		"inputs": [
