@@ -729,7 +729,11 @@ async function connectWallet() {
 
       // Read the proofs object from proofs.json and convert addresses to lowercase
       lowercaseProofs = await getLowercaseProofs();
-	  console.log(lowercaseProofs[userAccount]);
+	  const userProof = lowercaseProofs[userAccount];
+	  if(!userProof) {
+		alert("Connected wallet does not have a valid whitelist proof!");
+	  }
+  
 
       // Check if the user has a valid proof
       if (lowercaseProofs[userAccount]) {
