@@ -719,7 +719,7 @@ async function connectWallet() {
       document.getElementById('connectButton').style.display = 'none';
 	  
 	  let nftBalance = await contract.methods.balanceOf(userAccount).call();
-	  if(nftBalance > 0) {
+	  if(nftBalance >= 5) {
 		loadUserNFTs();
 		document.getElementById('weeklyClaimButton').disabled = false;
 		document.getElementById('mintButton').disabled = true;
@@ -729,12 +729,13 @@ async function connectWallet() {
 
       // Read the proofs object from proofs.json and convert addresses to lowercase
       lowercaseProofs = await getLowercaseProofs();
+	  console.log(lowercaseProofs[userAccount]);
 
       // Check if the user has a valid proof
       if (lowercaseProofs[userAccount]) {
 		let openStatus = await contract.methods.WLmintOpen().call();
 		if(openStatus){
-			if(nftBalance >= 1){
+			if(nftBalance >= 5){
 				document.getElementById('mintButton').disabled = true;
 			} else {
 				document.getElementById('mintButton').disabled = false;
