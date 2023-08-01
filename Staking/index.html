@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <link rel="icon" href="./metadata/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./metadata/frenCoin.png" type="image/png">
+    <link rel="stylesheet" href="./metadata/nes.css/css/nes.css">
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.6.1/dist/web3.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$FREN Staking</title>
+    <link rel="stylesheet" href="./styles.css">
+    
+  </head>
+  
+  <body>
+    <div id="crtScanlines" class="scanline"></div>
+    <div id="crtMonitor" class="crt">
+
+      <div id="imgContainer"></div>
+      <div id="scrolling-background"></div>
+      <div class="lights"></div>
+      
+      <button id="gotoSigils" class="nes-btn">GO TO THE<br>SWAMP</button>
+      <button id="connectButton" class="nes-btn" onclick="connectWallet()">CONNECT<br>WALLET</button>
+      <button id="disconnectButton" class="nes-btn" onclick="disconnectWallet()">DISCONNECT<br>WALLET</button>
+
+      <div id="mainContainer">
+
+        <div id="overlay-Tooltip-Background"></div>
+
+        <div id="arcadeTitle">
+          <h1>FREN PRINTER</h1>
+        </div>
+
+        <div id="brrr">
+          <div id="goBrrr">
+            <h4>GOES BRRR!!!</h4>
+          </div>
+        </div>
+
+        <div id="totalSupplyText">
+          TOTAL SUPPLY: 
+          <span id="totalSupply"></span>
+           $FREN
+        </div>
+        <div id="burnRateText">
+          CURRENT BURN RATE: 
+          <span id="burnRate">%</span>
+          <img id="fireIcon" src="./metadata/firePixelated.png">
+        </div>
+
+        <!-- Staking App Container -->
+        <div id="stakingApp" class="nes-container is-rounded" >
+          <button id="stake-Header" class="nes-btn active-header">
+            STAKING
+          </button>
+          <button id="unstake-Header" class="nes-btn not-active-header">
+            UNSTAKING
+          </button>
+          <!-- Stake/Unstake ToolBar Container -->
+          <span id="stakePage">
+            <button id="stakeMinBtn" class="nes-btn">
+              STAKE MIN:
+              <br>
+              <span style="font-size: 12px;">1,000,000 $FREN</span>
+            </button>
+            <button id="stakeBalanceBtn" class="nes-btn">
+              STAKE MAX:
+              <br>
+              <span id="userBalance" class="balance"></span>
+              <span style="font-size: 10px; text-align: center; position: absolute; right: 2px; bottom: 2px;"> $FREN</span>
+            </button>
+            <br>
+            <span id="stakeInput-BigContainer">
+              <span id="stakeInput-container" class="nes-field is-inline">
+                <input type="number" id="tierInput" placeholder="ENTER AMOUNT" class="nes-input">
+                <label for="inline_field" style="margin-left: 10px; margin-right: 25px;">$FREN</label>
+              </span>
+              <button id="stakeBtn" class="nes-btn" disabled>STAKE</button>
+              <button id="tooltip-stakeBtn" class="nes-btn">?</button>
+            </span>
+          </span>
+          <span id="unstakePage">
+            <button id="stopBeingFrenBtn" class="nes-btn">
+              UNSTAKE AND
+              <br>
+              BREAK FREN-PAIR
+            </button>
+          </span>
+          <div id="amountStaked">YOUR STAKED $FREN: ***</div>
+          <div id="totalEarned">$FREN REWARDS: ***</div> 
+          <div id="totalFarming">TOTAL STAKED: ***</div>
+          <button id="tooltip-totalFarming" class="nes-btn">?</button>
+        </div>
+
+        <div id="frenPairDis">
+          <div id="queueStatus" hidden>YOU ARE NOT IN THE QUEUE !</div>
+          <button id="leaveQueueBtn" hidden>LEAVE QUEUE</button>
+
+        </div>
+
+        <div id="tokenCaContainer" class="nes-container is-rounded">
+          <p id="frenCaText">$FREN CONTRACT ADDRESS :</p>
+          <button id="caCopyIcon" class="nes-btn">COPY</button>
+          <p id="frenCa">0x636eECCDdd069c4A4875377b8aFB16791aF9D16A</p>
+        </div>
+
+        <div id="buttons-wrapper-1">
+          <button id="buyBtn" class="nes-btn">
+            BUY $FREN
+          </button>
+          <button id="tooltip-buyBtn" class="nes-btn">
+            ?
+          </button>
+          <button id="playBackgroundMusic">
+            <img id="musicImg" src="./metadata/pixelatedAudioIcon.png">
+          </button>
+          <audio id="backgroundMusic" loop>
+            <source src="./metadata/frenMusic.mp3" type="audio/mpeg">
+          </audio>
+          <input type="range" id="volumeSliderBackgroundMusic" min="0" max="100" step="1" value="25">
+        </div>
+
+        <div id="socialContainer">
+          <button id="githubBtn" class="nes-btn is-error">GITHUB</button>
+          <button id="twitterBtn" class="nes-btn">TWITTER</button>
+          <button id="telegramBtn" class="nes-btn is-primary">TELEGRAM</button>
+        </div>
+
+        <div id="faqContainer" class="nes-container with-title is-rounded">
+          <p id="faqTitle" class="title">Frequenty Asked Questions</p>
+          <p class="faqText">
+            1. Why, fren?
+            <br>
+            Dev fren doesnt like dat most memecoins are scarin away da ppl! Too many non-frens trying to hurt da frens wiv badness. FREN is a fun way for frens to be frens. Jus like crypto shud be. Frens can stake FREN tokens in pairs! Bein frens! Dey earn interest, but dey gotta hab at least a certain amount of time as a fren pair.
+            <br>
+            2. How do I gib my FREN tokens for staking, fren?
+            <br>
+            You use da "stake" button wid da amount of FREN tokens you want to stake. Dis checks if you hab enough tokens, den it burns your tokens. If dere are no other frens in da queue, you will wait 4 a fren. If dere iz another fren, you two become a frenpair.
+            <br>
+            3. Can I stop being a fren, fren?
+            <br>
+            Yes, fren. You use da "Stop Being Fren" button. You'll get ur stake back n any rewards you earned. Some ov ur rewards iz shared with da other FREN holders!
+            <br>
+            4. Can I leave da queue, fren?
+            <br>
+            Yes, fren. You use da "Leave Queue" button if you been alone for a while! You'll get ur stake back, plus sum free interest as a sorry for u waitin! Dis interest is only earned if nobody becomes ur fren b4 u leave.
+            <br>
+            5. How does da burn work, fren?
+            <br>
+            Da burn rate changes according to da total supply of FREN. It increases or decreases by a little bit for every 0.1% change in supply.
+            <br>
+            6. What iz dynamic reflections?
+            <br>
+            Some of da burned tokens r put in a big pot for all da frens! Dis is automatically applied to your balance, it iz proportional to ur share of tokens, so it can go down if you don't make more FRENs!
+            <br>
+            7. What iz daily interest bonus?
+            <br>
+            For every day dat u n a fren are in a pair, you will earn 0.01% more interest! Dis is compounded, so da longer you stay frens - da more FREN you get! Da bonus iz reset when you stop being frens.
+            <br>
+            8. Iz FREN valuable?
+            <br>
+            Surely any1 wants as many FRENs as possible? Da value in a FREN is de value you gib dat fren! FRENs!*
+          </p>
+          <dd style="font-size: 8px; display: inline-block; word-wrap: break-word; color: #0f0a1e; margin-bottom: 15px;">*(The FREN token haz no intrinsic value, and is intended as both a fun and interactive way to utilize a blockchain with friends and an experiment into memetic market psychology and game theory. Do not purchase FREN with any expectations)</dd>
+        </div>
+
+        <!-- ToolTip Text Containers -->
+        <div id="tooltip-buyBtn-text" class="nes-balloon">
+          Ensure slippage is set to at LEAST the current burn rate!
+        </div>
+        <div id="tooltip-totalFarming-text" class="nes-balloon">
+          Total amount of FREN staked (only includes initial stakes)
+        </div>
+        <div id="tooltip-stakeBtn-text" class="nes-balloon">
+          Minimum stake is 1 million FREN tokens. You will be either paired or put into the queue to pair. You need to unstake to stake again/more.
+        </div>
+
+
+      </div>
+        
+    </div>
+
+    <script src="./app.js"></script>
+    <script>
+      updateButtonVisibility();
+      createLight();
+      setStakeActive();
+      refreshData();
+    </script>
+
+  </body>
+</html>
+  

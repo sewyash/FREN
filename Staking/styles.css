@@ -1,0 +1,782 @@
+body {
+  font-family: 'Press Start 2P';
+  background-color: #368B85;
+  color: #E4D8B4;
+  background: repeating-linear-gradient(
+    to bottom,
+    #0f0a1e,
+    #0f0a1e 2px,
+    lighten(#0f0a1e, 3%) 2px,
+    lighten(#0f0a1e, 3%) 4px
+  );
+  overflow: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+body::-webkit-scrollbar {
+  width: 1px; /* Set the width of the scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #88888800; /* Set the color of the scrollbar thumb */
+  border-radius: 6px; /* Set the border-radius of the scrollbar thumb */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #55555500; /* Set the color of the scrollbar thumb on hover */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: rgba(241, 241, 241, 0); /* Set the color of the scrollbar track */
+}
+
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('./metadata/PressStart2P-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* Arcade Blinking Text Style */
+
+@keyframes arcadeBlink {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* Make things go brrr!!! */
+
+@keyframes brrrShake {
+  0% { transform: translate(4px, 4px) rotate(0deg); }
+  10% { transform: translate(-4px, -8px) rotate(-1deg); }
+  20% { transform: translate(-12px, 0px) rotate(1deg); }
+  30% { transform: translate(12px, 8px) rotate(0deg); }
+  40% { transform: translate(4px, -4px) rotate(1deg); }
+  50% { transform: translate(-4px, 8px) rotate(-1deg); }
+  60% { transform: translate(-12px, 4px) rotate(0deg); }
+  70% { transform: translate(12px, 4px) rotate(-1deg); }
+  80% { transform: translate(-4px, -4px) rotate(1deg); }
+  90% { transform: translate(4px, 8px) rotate(0deg); }
+  100% { transform: translate(4px, -8px) rotate(-1deg); }
+}
+
+#brrr {
+  animation: brrrShake 0.075s linear infinite;
+}
+
+/* Outside Buttons */
+
+#connectButton, 
+#disconnectButton {
+  position: fixed;
+  font-size: 16px;
+  top: 0; 
+  right: 0;
+  z-index: 8;
+  margin: 25px;
+  background-color: #E4D8B4;
+}
+
+#gotoSigils {
+  position: fixed;
+  font-size: 16px;
+  top: 0;
+  left: 0;
+  z-index: 8;
+  margin: 25px;
+  background-color: #E4D8B4;
+}
+
+/* Main Content */
+
+#mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#arcadeTitle {
+  color: #E86F68;
+  animation: arcadeBlink 1s steps(2, start) infinite;
+  letter-spacing: 10px;
+  font-size: 28px;
+  text-shadow: -2px 0 0 #E4D8B4, -4px 0 0 #df4a42, 2px 0 0 #91fcfe, 4px 0 0 #4405fc;
+  text-align: center;
+  margin-top: 150px;
+  margin-bottom: 25px;
+}
+
+#goBrrr {
+  letter-spacing: 10px;
+  font-size: 24px;
+  text-shadow: -2px 0 0 #E4D8B4, -4px 0 0 #df4a42, 2px 0 0 #91fcfe, 4px 0 0 #4405fc;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+#totalSupplyText {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+#totalSupply {
+  font-size: 14px;
+  text-align: center;
+}
+
+#burnRateText {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+  
+}
+#fireIcon {
+  height: 20px;
+  width: 20px;
+  margin-top: -10px;
+}
+
+/* Stake/Unstake Page */
+.not-active-header {
+  opacity: 55%; 
+}
+#stake-Header{
+  background-color: #368B85;
+  color: #E4D8B4;
+  position: relative;
+  font-size: 16px;
+  margin-right: 175px;
+}
+#unstake-Header{
+  background-color: #E86F68;
+  color: #0f0a1e;
+  position: relative;
+}
+#stakingApp{
+  background-color: #E4D8B4;
+  color: #0f0a1e;
+  position: relative;
+  height: 350px;
+  width: 565px;
+}
+#stakePage{
+  position: relative;
+  margin-top: 20px;
+}
+#stakeMinBtn{
+  background-color: #E4D8B4;
+  color: #0f0a1e;
+  font-size: 16px;
+  height: 80px;
+  width: 220px;
+  max-width: 220px;
+  display: inline-block;
+  word-wrap: break-word;
+  margin-right: 40px;
+  margin-bottom: 20px;
+}
+#stakeBalanceBtn{
+  background-color: #E4D8B4;
+  color: #0f0a1e;
+  font-size: 16px;
+  height: 80px;
+  width: 220px;
+  margin-bottom: 20px;
+}
+.balance{
+  font-size: 12px;
+  display: inline-block;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+#stakeInput-BigContainer{
+  display: flex;
+  position: relative;
+}
+#stakeInput-container{
+  display: flex;
+  font-size: 16px;
+  width: 330px;
+}
+#tierInput{
+  font-size: 14px;
+  height: 50px;
+  width: 100%;
+  margin-top: 10px;
+  background-color: #E4D8B4;
+  outline: none;
+  text-align: center;
+}
+#stakeBtn{
+  background-color: #E4D8B4;
+  color: #0f0a1e;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-right: 25px;
+}
+#tooltip-stakeBtn{
+  background-color: #E4D8B4;
+  color: #0f0a1e;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+#unstakePage{
+  position: relative;
+}
+#stopBeingFrenBtn{
+  position: relative;
+  background-color: #E4D8B4;
+  color: #0f0a1e;
+  font-size: 20px;
+  margin-top: 105px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#amountStaked{
+  position: absolute;
+  font-size: 10px;
+  bottom: 50px;
+  left: 25px;
+}
+
+#totalEarned{
+  position: absolute;
+  font-size: 10px;
+  bottom: 30px;
+  left: 25px;
+}
+
+#totalFarming{
+  position: absolute;
+  font-size: 10px;
+  bottom: 10px;
+  left: 25px;
+}
+#tooltip-totalFarming{
+  position: absolute;
+  background-color: #E4D8B4;
+  color: #0f0a1e;
+  font-size: 16px;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 20px;
+  margin-right: 25px;
+}
+
+
+
+#tokenCaContainer{
+  position: relative;
+  background-color: #E4D8B4;
+  margin-bottom: 10px;
+  height: 80px;
+  width: 565px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+#frenCaText{
+  font-size: 12px;
+  color: #0f0a1e;
+}
+#frenCa{
+  letter-spacing: 2px;
+  font-size: 10px;
+  color: #0f0a1e;
+}
+#caCopyIcon{
+  position: relative;
+  font-size: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 50px;
+  margin-bottom: -25px;
+  top: -35px;
+  left: 450px;
+  color: #0f0a1e;
+  background-color: #E4D8B4;
+}
+
+#overlay-Tooltip-Background{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9998;
+}
+#tooltip-totalFarming-text{
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+  color: #0f0a1e;
+  background-color: #E4D8B4;
+  z-index: 9999;
+}
+#tooltip-stakeBtn-text{
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+  color: #0f0a1e;
+  background-color: #E4D8B4;
+  z-index: 9999;
+}
+#tooltip-buyBtn-text{
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+  color: #0f0a1e;
+  background-color: #E4D8B4;
+  z-index: 9999;
+}
+
+#buttons-wrapper-1{
+  position: relative;
+  background-color: transparent ;
+  height: 50px;
+  width: 465px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#buyBtn{
+  position: relative;
+  font-size: 16px;
+  color: #0f0a1e;
+  background-color: #E4D8B4;
+}
+#tooltip-buyBtn{
+  position: relative;
+  font-size: 16px;
+  color: #0f0a1e;
+  background-color: #E4D8B4;
+}
+
+#playBackgroundMusic{
+  position: relative;
+  border: none;
+  background-color: transparent;
+  height: 40px;
+  width: 40px;
+  top: 12px;
+  outline: none;
+}
+#musicImg{
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+#playBackgroundMusic.musicShake  {
+  /* Apply brrrShake-music animation when the music is playing */
+  animation: brrrShake-music 0.3s infinite;
+}
+@keyframes brrrShake-music {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+#volumeSliderBackgroundMusic{
+  position: absolute;
+  width: 155px;
+  margin-top: 22px;
+  right: 0;
+}
+
+/*Range Slider Common Style*/
+input[type="range"]{
+  margin: auto;
+  -webkit-appearance: none;
+  position: relative;
+  overflow: hidden;
+  height: 20px;
+  width: 200px;
+  cursor: pointer;
+  border: 3px solid #0f0a1e;
+}
+::-webkit-slider-runnable-track {
+  background: #E4D8B4;
+}
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ * 2. Shadow is negative the full width of the input and has a spread 
+ *    of the width of the input.
+ */
+::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px; /* 1 */
+  height: 20px;
+  background: #0f0a1e;
+  box-shadow: -200px 0 0 200px #E86F68; /* 2 */
+  border: 3px solid #0f0a1e;
+}
+::-moz-range-track {
+  height: 20px;
+  background: #E4D8B4;
+}
+::-moz-range-thumb {
+  background: #E4D8B4;
+  height: 20px;
+  width: 10px;
+  border: 2px solid #0f0a1e;
+  border-radius: 0 !important;
+  box-shadow: -200px 0 0 200px #E86F68;
+  box-sizing: border-box;
+}
+:-ms-fill-lower { 
+  background: #E86F68;
+}
+::-ms-thumb { 
+  background: #0f0a1e;
+  border: 2px solid #0f0a1e;
+  height: 20px;
+  width: 10px;
+  box-sizing: border-box;
+}
+::-ms-ticks-after { 
+  display: none; 
+}
+::-ms-ticks-before { 
+  display: none; 
+}
+::-ms-track { 
+  background: #E4D8B4;
+  color: transparent;
+  height: 20px;
+  border: none;
+}
+::-ms-tooltip { 
+  display: none;
+}
+
+#socialContainer{
+  margin-top: 10px;
+}
+#githubBtn{
+  position: relative;
+  font-size: 16px;
+  color: #0f0a1e;
+  background-color: #E86F68;
+}
+#twitterBtn{
+  position: relative;
+  font-size: 16px;
+  color: #0f0a1e;
+  background-color: #E4D8B4;
+}
+#telegramBtn{
+  position: relative;
+  font-size: 16px;
+  color: #0f0a1e;
+  background-color: #2AABEE;
+}
+
+#faqContainer{
+  background-color: #E4D8B4;
+  padding: 0px 15px;
+  margin-top: 100px;
+  max-width: 750px;
+  margin-bottom: 50px;
+}
+#faqTitle{
+  background-color: #E4D8B4; 
+  color: #0f0a1e; 
+  font-size: 16px;
+  position: relative;
+  left: 25px;
+}
+.faqText{
+  display: inline-block;
+  word-wrap: break-word;
+  font-size: 12px;
+  color: #0f0a1e; 
+} 
+
+
+
+
+
+
+
+
+
+
+/* CRT Monitor */
+
+@keyframes flicker {
+  0% {
+    opacity: 0.27861;
+  }
+  5% {
+    opacity: 0.34769;
+  }
+  10% {
+    opacity: 0.23604;
+  }
+  15% {
+    opacity: 0.90626;
+  }
+  20% {
+    opacity: 0.18128;
+  }
+  25% {
+    opacity: 0.83891;
+  }
+  30% {
+    opacity: 0.65583;
+  }
+  35% {
+    opacity: 0.67807;
+  }
+  40% {
+    opacity: 0.26559;
+  }
+  45% {
+    opacity: 0.84693;
+  }
+  50% {
+    opacity: 0.96019;
+  }
+  55% {
+    opacity: 0.08594;
+  }
+  60% {
+    opacity: 0.20313;
+  }
+  65% {
+    opacity: 0.71988;
+  }
+  70% {
+    opacity: 0.53455;
+  }
+  75% {
+    opacity: 0.37288;
+  }
+  80% {
+    opacity: 0.71428;
+  }
+  85% {
+    opacity: 0.70419;
+  }
+  90% {
+    opacity: 0.7003;
+  }
+  95% {
+    opacity: 0.36108;
+  }
+  100% {
+    opacity: 0.24387;
+  }
+}
+@keyframes textShadow {
+  0% {
+    text-shadow: 0.4389924193300864px 0 1px rgba(0,30,255,0.5), -0.4389924193300864px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  5% {
+    text-shadow: 2.7928974010788217px 0 1px rgba(0,30,255,0.5), -2.7928974010788217px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  10% {
+    text-shadow: 0.02956275843481219px 0 1px rgba(0,30,255,0.5), -0.02956275843481219px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  15% {
+    text-shadow: 0.40218538552878136px 0 1px rgba(0,30,255,0.5), -0.40218538552878136px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  20% {
+    text-shadow: 3.4794037899852017px 0 1px rgba(0,30,255,0.5), -3.4794037899852017px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  25% {
+    text-shadow: 1.6125630401149584px 0 1px rgba(0,30,255,0.5), -1.6125630401149584px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  30% {
+    text-shadow: 0.7015590085143956px 0 1px rgba(0,30,255,0.5), -0.7015590085143956px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  35% {
+    text-shadow: 3.896914047650351px 0 1px rgba(0,30,255,0.5), -3.896914047650351px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  40% {
+    text-shadow: 3.870905614848819px 0 1px rgba(0,30,255,0.5), -3.870905614848819px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  45% {
+    text-shadow: 2.231056963361899px 0 1px rgba(0,30,255,0.5), -2.231056963361899px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  50% {
+    text-shadow: 0.08084290417898504px 0 1px rgba(0,30,255,0.5), -0.08084290417898504px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  55% {
+    text-shadow: 2.3758461067427543px 0 1px rgba(0,30,255,0.5), -2.3758461067427543px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  60% {
+    text-shadow: 2.202193051050636px 0 1px rgba(0,30,255,0.5), -2.202193051050636px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  65% {
+    text-shadow: 2.8638780614874975px 0 1px rgba(0,30,255,0.5), -2.8638780614874975px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  70% {
+    text-shadow: 0.48874025155497314px 0 1px rgba(0,30,255,0.5), -0.48874025155497314px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  75% {
+    text-shadow: 1.8948491305757957px 0 1px rgba(0,30,255,0.5), -1.8948491305757957px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  80% {
+    text-shadow: 0.0833037308038857px 0 1px rgba(0,30,255,0.5), -0.0833037308038857px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  85% {
+    text-shadow: 0.09769827255241735px 0 1px rgba(0,30,255,0.5), -0.09769827255241735px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  90% {
+    text-shadow: 3.443339761481782px 0 1px rgba(0,30,255,0.5), -3.443339761481782px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  95% {
+    text-shadow: 2.1841838852799786px 0 1px rgba(0,30,255,0.5), -2.1841838852799786px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  100% {
+    text-shadow: 2.6208764473832513px 0 1px rgba(0,30,255,0.5), -2.6208764473832513px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+}
+.crt::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+  animation: flicker 0.15s infinite;
+}
+.crt::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 10;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+.crt {
+  z-index: 10;
+  animation: textShadow 1.6s infinite;
+}
+.scanline {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 9; /* Set a lower z-index so that scanlines are below the CRT effect */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+  linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 100% 10px, 10px 100%; /* Adjust the '8px' value to control the scanline spacing */
+  opacity: 0.5; /* Adjust the opacity to make the scanlines more or less visible */
+  pointer-events: none;
+}
+
+/* Dollar Signs Background */
+.lights {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -99;
+}
+.light {
+  position: absolute;
+  border-radius: 50%;
+  animation: float 16s infinite;
+}
+@keyframes float {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+    bottom: -10%;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+    bottom: 120%;
+  }
+}
+/* Pepe Scrolling Background */
+#imgContainer {
+  width: 110vw;
+  position: fixed;
+  height: 100vh; /* Adjust based on your needs */
+  margin-top: auto;
+  overflow: hidden;
+  bottom: 0;
+}
+.pepeimg {
+  position: absolute;
+  width: auto;
+  height: 400px;
+  opacity: 50%;
+  bottom: -10px; /* Adjust this value */
+  right: 0;
+  z-index: -100;
+}
+#scrolling-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #368B85;
+  z-index: -100;
+  animation: scroll 10s linear infinite; /* adjust the duration for faster or slower scrolling */
+}
+@keyframes scroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100px -100px; /* adjust this value for faster or slower scrolling */
+  }
+}
+
+/* Hide the spinners for number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
